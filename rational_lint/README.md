@@ -1,9 +1,6 @@
 # Rational lint
 
-<!-- 
-Uncomment if available to public
-
-[![pub package](https://img.shields.io/pub/v/rational_lint?style=flat-square)](https://pub.dev/packages/rational_lint) -->
+[![pub package](https://img.shields.io/pub/v/rational_lint?style=flat-square)](https://pub.dev/packages/rational_lint)
 
 A heavily strict analysis_options based on popular lint packages on pub.dev
 
@@ -13,7 +10,7 @@ Add this package to your `dev_dependencies` in your `pubspec.yaml`:
 
 ```yaml
 dev_dependencies:
-  rational_lint: ^1.0.0
+  rational_lint: ^1.0.1
 ```
 
 and the following to your `analysis_options.yaml` (create one in the root of your project if you don't
@@ -101,3 +98,16 @@ include: package:rational_lint/all_rules.yaml
 
 ...
 ```
+
+### Show that you're using `rational_lint`
+
+Add `style: rational_lint` badge to your project's README.md. 
+
+```md
+[![style: rational_lint](https://img.shields.io/badge/style-rational__lint-blueviolet)](https://pub.dev/packages/rational_lint)
+```
+
+It'll look like this
+
+[![style: rational_lint](https://img.shields.io/badge/style-rational__lint-blueviolet)](https://pub.dev/packages/rational_lint)
+

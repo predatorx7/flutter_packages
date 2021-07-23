@@ -1,4 +1,4 @@
 ##
 # Lint rules to be used for packages, which provide a dart API for developers
 ##
-include: package:rational_lint/analysis_options_package.1.0.0.yaml
+include: package:rational_lint/analysis_options_package.1.0.1.yaml
