@@ -6,7 +6,8 @@
 
 # 1.0.1
 
-- Remove sort_pub_dependencies and avoid_classes_with_only_static_members from non-package rules
+- Remove sort_pub_dependencies from non-package rules
+- Remove avoid_classes_with_only_static_members from rules
 
 ## 1.0.0
 
