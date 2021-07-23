@@ -1,6 +1,6 @@
 name: rational_lint
 version: 1.0.1+1
-description: A heavily strict analysis_options for Dart/Flutter projects
+description: A heavily strict analysis_options for Dart/Flutter projects based on popular lint packages on pub.dev
 repository: https://github.com/predatorx7/flutter_packages
 issue_tracker: https://github.com/predatorx7/flutter_packages/issues
 

@@ -4,10 +4,14 @@
 `use_build_context_synchronously` (all unreleased yet);
 - Disabled `one_member_abstracts`.
 
+# 1.0.1+1
+
+- Remove avoid_classes_with_only_static_members from rules
+- Improve description message
+
 # 1.0.1
 
 - Remove sort_pub_dependencies from non-package rules
-- Remove avoid_classes_with_only_static_members from rules
 
 ## 1.0.0
 

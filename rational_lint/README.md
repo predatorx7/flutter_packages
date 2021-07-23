@@ -2,7 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/rational_lint?style=flat-square)](https://pub.dev/packages/rational_lint)
 
-A heavily strict analysis_options based on popular lint packages on pub.dev
+A heavily strict analysis_options for Dart/Flutter projects based on popular lint packages on pub.dev
 
 ### Installation
 
@@ -10,7 +10,7 @@ Add this package to your `dev_dependencies` in your `pubspec.yaml`:
 
 ```yaml
 dev_dependencies:
-  rational_lint: ^1.0.1
+  rational_lint: ^1.0.1+1
 ```
 
 and the following to your `analysis_options.yaml` (create one in the root of your project if you don't
