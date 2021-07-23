@@ -82,7 +82,7 @@ linter:
     # Can usually be replaced with an extension
     # pedantic: disabled
     # http://dart-lang.github.io/linter/lints/avoid_classes_with_only_static_members.html
-    - avoid_classes_with_only_static_members
+    # - avoid_classes_with_only_static_members
 
     # Never accidentally use dynamic invocations
     # Dart SDK: unreleased • (Linter vnull)
