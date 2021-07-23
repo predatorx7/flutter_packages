@@ -1,4 +1,4 @@
-## 1.1.0 (upcoming)
+### 1.1.0 (upcoming)
 
 - Added `library_private_types_in_public_api`, `prefer_null_aware_method_calls`, `require_trailing_commas` and
 `use_build_context_synchronously` (all unreleased yet);
