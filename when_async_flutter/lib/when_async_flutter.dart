@@ -1,7 +1,6 @@
 library when_async_flutter;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:when_async/when_async.dart';
+
+export 'src/notifiers/notifiers.dart';
+export 'src/widgets/widgets.dart';

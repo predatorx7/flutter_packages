@@ -1,6 +1,6 @@
 # when_async_flutter
 
-A new Flutter package project.
+Components (i.e Widgets, ChangeNotifier) for easy consumption of asynchronous computation result & snapshots.
 
 ## Getting Started
 
