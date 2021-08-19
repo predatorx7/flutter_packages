@@ -1,3 +1,7 @@
 ## 1.0.0
 
-- Initial version, created by Stagehand
+* Initial release with Futures support
+
+## 2.0.0
+
+* Migrated to sound null-safety

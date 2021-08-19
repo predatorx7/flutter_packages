@@ -4,9 +4,9 @@ import 'package:meta/meta.dart';
 abstract class AsyncSnapshot<T> {
   const AsyncSnapshot();
 
-  T get value;
-  Object get error;
-  StackTrace get stackTrace;
+  T? get value;
+  Object? get error;
+  StackTrace? get stackTrace;
 
   bool get isLoading;
   bool get hasData;

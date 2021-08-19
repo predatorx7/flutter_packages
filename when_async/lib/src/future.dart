@@ -7,10 +7,10 @@ class WhenFuture<T> extends When<Future<T>, T> {
 
   @override
   Future<void> execute({
-    final VoidCallback onLoading,
-    final VoidDataCallback<T> onComplete,
-    final VoidErrorCallback onError,
-    final VoidCallback onFinally,
+    final VoidCallback? onLoading,
+    final VoidDataCallback<T>? onComplete,
+    final VoidErrorCallback? onError,
+    final VoidCallback? onFinally,
   }) async {
     onLoading?.call();
     try {
@@ -26,7 +26,7 @@ class WhenFuture<T> extends When<Future<T>, T> {
   @override
   Future<void> snapshots(
     FutureSnapshotListenerCallback<T> listener, [
-    VoidCallback onFinally,
+    VoidCallback? onFinally,
   ]) {
     return execute(
       onComplete: (it) => listener(FutureSnapshot<T>.success(it)),
