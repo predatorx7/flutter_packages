@@ -1,6 +1,6 @@
 # when_async_flutter
 
-Components (i.e Widgets, ChangeNotifier) for easy consumption of asynchronous computation result & snapshots.
+Contains widgets, notifiers, etc to work with asynchronous computations.Contains widgets, notifiers, etc to work with asynchronous computations.
 
 ## Getting Started
 

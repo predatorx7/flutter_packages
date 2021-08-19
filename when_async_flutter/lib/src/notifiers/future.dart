@@ -12,15 +12,14 @@ mixin WhenFutureNotifier<T> on ChangeNotifier {
     notifyListeners();
   }
 
-  T get data => snapshot.value;
+  T? get data => snapshot.data;
 
-  FutureSnapshotState get state =>
-      snapshot?.state ?? FutureSnapshotState.waiting;
+  FutureSnapshotState get state => snapshot.state;
 
   /// An object that identifies the currently active callbacks. Used to avoid
   /// calling setState from stale callbacks, e.g. after disposal of this state,
   /// or after widget reconfiguration to a new Future.
-  Object _activeCallbackIdentity;
+  Object? _activeCallbackIdentity;
 
   @override
   void dispose() {
@@ -32,8 +31,8 @@ mixin WhenFutureNotifier<T> on ChangeNotifier {
   @protected
   Future<void> setFutureValue(
     Future<T> future,
-    FutureSnapshotListenerCallback<T> listener,
-    VoidCallback onFinally,
+    FutureSnapshotListenerCallback<T>? listener,
+    VoidCallback? onFinally,
   ) {
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;

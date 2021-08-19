@@ -1,5 +1,5 @@
 name: when_async_flutter
-description: Components (i.e Widgets, ChangeNotifier) for easy consumption of asynchronous computation result & snapshots.
+description: Contains widgets, notifiers, etc to work with asynchronous computations.
 version: 1.1.0
 homepage: https://magnificsoftware.com
 

@@ -6,9 +6,9 @@ class FutureSensitiveWidget<RESULT_TYPE> extends StatefulWidget {
   final Widget Function(BuildContext context, FutureSnapshot snapshot) builder;
 
   const FutureSensitiveWidget({
-    Key key,
-    @required this.future,
-    @required this.builder,
+    Key? key,
+    required this.future,
+    required this.builder,
   })  : assert(future != null && builder != null),
         super(key: key);
 
@@ -17,15 +17,14 @@ class FutureSensitiveWidget<RESULT_TYPE> extends StatefulWidget {
       FutureSensitiveWidgetState<RESULT_TYPE>();
 }
 
-const _shrinkedSizedBox = SizedBox.shrink();
-
 class FutureSensitiveWidgetState<RESULT_TYPE>
     extends State<FutureSensitiveWidget<RESULT_TYPE>> {
   /// An object that identifies the currently active callbacks. Used to avoid
   /// calling setState from stale callbacks, e.g. after disposal of this state,
   /// or after widget reconfiguration to a new Future.
-  Object _activeCallbackIdentity;
-  FutureSnapshot<RESULT_TYPE> _lastSnapshot;
+  Object? _activeCallbackIdentity;
+
+  late FutureSnapshot<RESULT_TYPE> _lastSnapshot;
 
   @override
   void initState() {
@@ -53,7 +52,7 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
   }
 
   void _subscribe() {
-    if (!mounted || widget.future == null) return;
+    if (!mounted) return;
 
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
@@ -74,7 +73,7 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
         if (_activeCallbackIdentity != callbackIdentity) return;
 
         setState(() {
-          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.failure(e, s);
+          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.error(e, s);
         });
       },
     );
@@ -85,7 +84,7 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
   }
 
   void restart() {
-    if (!mounted || widget.future == null) return;
+    if (!mounted) return;
 
     if (_activeCallbackIdentity != null) {
       _unsubscribe();
@@ -100,5 +99,5 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
 
   @override
   Widget build(BuildContext context) =>
-      widget.builder?.call(context, _lastSnapshot) ?? _shrinkedSizedBox;
+      widget.builder.call(context, _lastSnapshot);
 }
