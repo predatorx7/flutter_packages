@@ -2,8 +2,7 @@
 ///
 /// The usual flow of state is as follows:
 ///
-/// 1. [waiting], indicating that the asynchronous operation has begun,
-///    typically with the data being null.
+/// 1. [waiting], indicating that the asynchronous operation has begun.
 /// 2. [data], with data being non-null, and that computation completed.
 /// 4. [none], with data being null, and computation completed.
 /// 4. [error], with computation error.

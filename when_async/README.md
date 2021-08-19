@@ -1,6 +1,10 @@
 # when_async
 
-APIs for easy consumption of asynchronous computations
+Contains utility classes to work with asynchronous computations.
+
+## Utilities
+
+* [When.future] or [WhenFuture] 
 
 ## Usage
 
