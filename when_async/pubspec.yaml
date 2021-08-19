@@ -1,10 +1,13 @@
 name: when_async
-description: A starting point for Dart libraries or applications.
-version: 0.1.0
-homepage: magnificsoftware.com
+description: APIs for easy consumption of asynchronous computations
+version: 1.0.0
+homepage: https://magnificsoftware.com
 
 environment:
   sdk: '>=2.10.0 <3.0.0'
+
+dependencies:
+  meta: ^1.2.4
 
 dev_dependencies:
   rational_lint: ^1.0.1+1

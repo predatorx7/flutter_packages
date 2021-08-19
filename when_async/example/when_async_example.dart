@@ -11,7 +11,7 @@ void main() {
   );
 
   int _index = 0;
-  
+
   _when.execute(
     onLoading: () => stdout.writeln('$_index: Loading'),
     onComplete: (it) => stdout.writeln('$_index: $it'),

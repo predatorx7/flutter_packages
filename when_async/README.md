@@ -1,7 +1,6 @@
-A library for Dart developers.
+# when_async
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+APIs for easy consumption of asynchronous computations
 
 ## Usage
 
@@ -11,7 +10,25 @@ A simple usage example:
 import 'package:when_async/when_async.dart';
 
 main() {
-  var awesome = new Awesome();
+  final _when = When.future<int>(
+    Future.delayed(
+      const Duration(seconds: 5),
+      () => 1,
+    ),
+  );
+
+  _when.execute(
+    onLoading: () => stdout.writeln('Loading'),
+    onComplete: (it) => stdout.writeln('$it'),
+    onError: (e, s) => stdout.writeln('$e\n$s'),
+    onFinally: () => stdout.writeln('Finally'),
+  );
+
+  // OR
+
+  _when.snapshots((snapshot) { 
+     stdout.writeln('Snapshot: ${snapshot.state}')
+  });
 }
 ```
 
