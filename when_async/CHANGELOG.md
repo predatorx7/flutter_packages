@@ -2,6 +2,6 @@
 
 * Initial release with Futures support
 
-## 2.0.0
+## 1.1.0
 
 * Migrated to sound null-safety
