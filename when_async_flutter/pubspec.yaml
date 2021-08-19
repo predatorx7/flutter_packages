@@ -1,7 +1,7 @@
 name: when_async_flutter
 description: Components (i.e Widgets, ChangeNotifier) for easy consumption of asynchronous computation result & snapshots.
 version: 1.0.0
-homepage: magnificsoftware.com
+homepage: https://magnificsoftware.com
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
