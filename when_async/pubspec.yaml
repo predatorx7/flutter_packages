@@ -1,5 +1,5 @@
 name: when_async
-description: APIs for easy consumption of asynchronous computations
+description: Contains utility classes to work with asynchronous computations. Helps with easy consumption of such computations.
 version: 1.2.1
 # https://magnificsoftware.com
 homepage: https://github.com/predatorx7/flutter_packages
