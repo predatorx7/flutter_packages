@@ -16,3 +16,6 @@ typedef VoidValueCallback<T> = void Function(T value);
 typedef VoidCallback = void Function();
 
 typedef VoidErrorCallback = void Function(Object error, StackTrace stackTrace);
+
+typedef AsyncResultBuilderCallback<ASYNC_RESULT_TYPE> = ASYNC_RESULT_TYPE
+    Function();

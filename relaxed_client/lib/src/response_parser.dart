@@ -2,12 +2,14 @@ import 'package:http/http.dart' as http;
 import 'package:relaxed_client/src/extensions.dart';
 
 /// Deserializes a String [value] to Deserialized (or Decoded) data of type [DecodedDataType].
-/// 
+///
 /// For example: A string which has data following JSON notation to a data class.
-typedef ResponseBodyDecoderCallback<DecodedDataType> = DecodedDataType Function(String value);
+typedef ResponseBodyDecoderCallback<DecodedDataType> = DecodedDataType Function(
+    String value);
 
 /// Parses the serialized (or decoded)
-typedef ResponseBodyParserCallback<ParsedDataType, DecodedDataType> = ParsedDataType Function(DecodedDataType value);
+typedef ResponseBodyParserCallback<ParsedDataType, DecodedDataType>
+    = ParsedDataType Function(DecodedDataType value);
 
 /// Parses a response body as a string to a data class or some other data structure.
 class ParsedResponse<ParsedDataType, DecodedDataType> {

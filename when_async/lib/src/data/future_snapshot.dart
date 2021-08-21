@@ -5,21 +5,28 @@ import 'async_snapshot.dart';
 
 @immutable
 class FutureSnapshot<T> extends AsyncSnapshot<T> {
-  /// Creates an [FutureSnapshot] with a data. Constructed upon asynchronous task completion.
+  const FutureSnapshot.state(
+    this.state, {
+    this.data,
+    this.error,
+    this.stackTrace,
+  });
+
+  /// Creates an [FutureSnapshot] with a data. Constructed upon asynchronous task completion with data or no data.
   ///
   /// The data can be `null`.
-  const FutureSnapshot.success(this.data)
+  const FutureSnapshot.complete(this.data)
       : error = null,
         stackTrace = null,
         state =
-            data != null ? FutureSnapshotState.data : FutureSnapshotState.none;
+            data != null ? AsyncSnapshotState.data : AsyncSnapshotState.none;
 
   /// Creates an [FutureSnapshot] in loading state.
   const FutureSnapshot.loading()
       : data = null,
         error = null,
         stackTrace = null,
-        state = FutureSnapshotState.waiting;
+        state = AsyncSnapshotState.waiting;
 
   /// Creates an [FutureSnapshot] in error state.
   ///
@@ -30,7 +37,7 @@ class FutureSnapshot<T> extends AsyncSnapshot<T> {
     // ignore: prefer_initializing_formals
   ])  : error = error,
         data = null,
-        state = FutureSnapshotState.error;
+        state = AsyncSnapshotState.error;
 
   @override
   final T? data;
@@ -42,8 +49,8 @@ class FutureSnapshot<T> extends AsyncSnapshot<T> {
   final StackTrace? stackTrace;
 
   /// Current state of connection to the asynchronous future computation.
-  final FutureSnapshotState state;
+  final AsyncSnapshotState state;
 
   @override
-  bool get isLoading => state == FutureSnapshotState.waiting;
+  bool get isLoading => state == AsyncSnapshotState.waiting;
 }

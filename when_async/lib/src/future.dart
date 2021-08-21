@@ -8,7 +8,9 @@ import 'when_async_base.dart';
 ///
 /// A common use-case for [When] is to easily consume states of an asynchronous operation such as reading a file or making an HTTP request.
 class WhenFuture<T> extends When<Future<T>, T> {
-  const WhenFuture(Future<T> future) : super(future);
+  WhenFuture(Future<T> Function() createFuture) : super(createFuture);
+
+  WhenFuture.value(Future<T> future) : super.value(future);
 
   @override
   Future<void> execute({
@@ -34,10 +36,15 @@ class WhenFuture<T> extends When<Future<T>, T> {
     VoidCallback? onFinally,
   ]) {
     return execute(
-      onComplete: (it) => listener(FutureSnapshot<T>.success(it)),
-      onError: (e, s) => listener(FutureSnapshot<T>.error(e, s)),
       onLoading: () => listener(FutureSnapshot<T>.loading()),
+      onComplete: (it) => listener(FutureSnapshot<T>.complete(it)),
+      onError: (e, s) => listener(FutureSnapshot<T>.error(e, s)),
       onFinally: onFinally,
     );
+  }
+
+  @override
+  When<Future<T>, T> recreate() {
+    return WhenFuture(super.valueBuilder);
   }
 }

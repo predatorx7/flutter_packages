@@ -1,7 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:when_async/when_async.dart';
 
-mixin WhenFutureNotifier<T> on ChangeNotifier {
+/// A [ChangeNotifier] that provides provides snapshot of a future.
+/// The future can be recreated/refreshed by calling [update] that uses [createFuture] to execute a future asynchronous computation.
+class WhenFutureNotifier<T> with ChangeNotifier, WhenFutureNotifierMixin<T> {
+  final Future<T> Function() createFuture;
+
+  WhenFutureNotifier(this.createFuture);
+
+  void update() {
+    setFutureValue(
+      createFuture(),
+      (snapshot) {},
+      () {},
+    );
+  }
+}
+
+/// A mixin that provides listenable snapshots of a future asynchronous computation.
+///
+/// Use [WhenFutureNotifier] instead of this mixin if updating or refreshing a future is required.
+mixin WhenFutureNotifierMixin<T> on ChangeNotifier {
   FutureSnapshot<T> get snapshot => _snapshot;
 
   FutureSnapshot<T> _snapshot = FutureSnapshot<T>.loading();

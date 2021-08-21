@@ -4,7 +4,7 @@ import 'package:when_async/when_async.dart';
 
 void example1() {
   final _when = When.future<int>(
-    Future.delayed(
+    () => Future.delayed(
       const Duration(seconds: 5),
       () => 1,
     ),
@@ -31,7 +31,7 @@ void example1() {
 
 void example2() {
   final _when = When.future<int>(
-    Future.delayed(
+    () => Future.delayed(
       const Duration(seconds: 5),
       () => 1,
     ),

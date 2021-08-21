@@ -64,7 +64,7 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
         if (_activeCallbackIdentity != callbackIdentity) return;
 
         setState(() {
-          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.success(it);
+          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.complete(it);
         });
       },
       onError: (e, s) {
