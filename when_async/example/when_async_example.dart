@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:when_async/when_async.dart';
 
-void example1() {
+class FakeError extends Error {}
+
+Future<void> example1() {
+  stdout.writeln('Example 1');
+
   final _when = When.future<int>(
     () => Future.delayed(
       const Duration(seconds: 5),
@@ -10,26 +14,37 @@ void example1() {
     ),
   );
 
-  const _listener1 = '(0)';
+  final _whenError = When.future<int>(
+    () => Future.delayed(
+      const Duration(seconds: 5),
+      () => throw FakeError(),
+    ),
+  );
 
-  _when.execute(
+  const _listener1 = '(execute)';
+
+  final task1 = _when.execute(
     onLoading: () => stdout.writeln('$_listener1: Loading'),
     onComplete: (it) => stdout.writeln('$_listener1: Data: $it'),
-    onError: (e, s) => stdout.writeln('$_listener1: $e\n$s'),
+    onError: (e, s) => stdout.writeln('$_listener1: $e'),
     onFinally: () => stdout.writeln('$_listener1: Finally'),
   );
 
-  const _listener2 = '(1)';
+  const _listener2 = '(executeWithError)';
 
-  _when.execute(
+  final task2 = _whenError.execute(
     onLoading: () => stdout.writeln('$_listener2: Loading'),
     onComplete: (it) => stdout.writeln('$_listener2: Data: $it'),
-    onError: (e, s) => stdout.writeln('$_listener2: Error: $e\n$s'),
+    onError: (e, s) => stdout.writeln('$_listener2: Error: $e'),
     onFinally: () => stdout.writeln('$_listener2: Finally'),
   );
+
+  return Future.wait([task1, task2]);
 }
 
-void example2() {
+Future<void> example2() {
+  stdout.writeln('Example 2');
+
   final _when = When.future<int>(
     () => Future.delayed(
       const Duration(seconds: 5),
@@ -37,22 +52,31 @@ void example2() {
     ),
   );
 
-  const _listener1 = '(0)';
+  final _whenError = When.future<int>(
+    () => Future.delayed(
+      const Duration(seconds: 5),
+      () => throw FakeError(),
+    ),
+  );
 
-  _when.snapshots(
+  const _listener1 = '(snapshot)';
+
+  final task1 = _when.snapshots(
     (snapshot) => stdout.writeln('$_listener1: ${snapshot.state}'),
     () => stdout.writeln('$_listener1: Finally'),
   );
 
-  const _listener2 = '(1)';
+  const _listener2 = '(snapshotWithError)';
 
-  _when.snapshots(
+  final task2 = _whenError.snapshots(
     (snapshot) => stdout.writeln('$_listener2: ${snapshot.state}'),
-    () => stdout.writeln('$_listener1: Finally'),
+    () => stdout.writeln('$_listener2: Finally'),
   );
+
+  return Future.wait([task1, task2]);
 }
 
-void main() {
-  example2();
-  example2();
+Future<void> main() async {
+  await example1();
+  await example2();
 }
