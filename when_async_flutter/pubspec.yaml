@@ -1,7 +1,8 @@
 name: when_async_flutter
-description: Contains widgets, notifiers, etc to work with asynchronous computations.
+description: Contains widgets, notifiers, etc to work with asynchronous computations. Helps with easy consumption of such computations in a flutter widget.
 version: 1.2.0
-homepage: https://magnificsoftware.com
+# https://magnificsoftware.com
+homepage: https://github.com/predatorx7/flutter_packages/tree/main/when_async_flutter
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

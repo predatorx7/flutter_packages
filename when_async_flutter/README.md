@@ -1,6 +1,6 @@
 # when_async_flutter
 
-Contains widgets, notifiers, etc to work with asynchronous computations.Contains widgets, notifiers, etc to work with asynchronous computations.
+Contains widgets, notifiers, etc to work with asynchronous computations. Helps with easy consumption of such computations in a flutter widget.
 
 ## Getting Started
 
