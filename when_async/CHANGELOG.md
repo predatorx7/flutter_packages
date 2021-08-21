@@ -12,5 +12,6 @@
 
 ## 1.2.1
 
-* Add uninitialized future snapshot state
-* Add a async value builder callback for lazy building and recreation of when classes.
+* Breaking: Add uninitialized future snapshot state
+* Breaking: Add a async value builder callback for lazy building and recreation of when classes.
+* Add APIs to refresh/redo an asynchronous computation.

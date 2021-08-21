@@ -42,9 +42,11 @@ abstract class When<ASYNC_RESULT_TYPE, RESULT_TYPE> {
     _asyncValue = valueBuilder();
   }
 
-  /// Asynchronously executes with listener callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
+  /// Asynchronously executes a computation once with listener callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
   ///
   /// This is useful to avoid having to do a tedious `try/catch/then`.
+  ///
+  /// This only does the asynchronous future computation once and returns the same future's result in subsequent calls. To refresh/redo an asynchronous computation which has already been computed, use [refresh].
   Future<void> execute({
     final VoidCallback? onLoading,
     final VoidValueCallback? onComplete,
@@ -52,17 +54,53 @@ abstract class When<ASYNC_RESULT_TYPE, RESULT_TYPE> {
     final VoidCallback? onFinally,
   });
 
+  /// Asynchronously executes a computation with listener callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
+  ///
+  /// This is useful to avoid having to do a tedious `try/catch/then`.
+  ///
+  /// This does the asynchronous future computation once but on subsequent calls, it reruns the asynchronous computation. To get the completed result from last execution, use [execute].
+  Future<void> refresh({
+    final VoidCallback? onLoading,
+    final VoidValueCallback? onComplete,
+    final VoidErrorCallback? onError,
+    final VoidCallback? onFinally,
+  }) {
+    buildAsyncValue();
+    return execute(
+      onLoading: onLoading,
+      onComplete: onComplete,
+      onError: onError,
+      onFinally: onFinally,
+    );
+  }
+
   /// Recreates a when instance from the given async builder.
   When<ASYNC_RESULT_TYPE, RESULT_TYPE> recreate();
 
-  /// Asynchronously executes with snapshots callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
+  /// Asynchronously executes a computation once with snapshots callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
   ///
   /// This is useful to avoid having to do a tedious `try/catch/then`.
+  ///
+  /// This is same as [execute] except that it will return a snapshot of the asynchronous computation's state.
   Future<void> snapshots(
     AsyncSnapshotListenerCallback<RESULT_TYPE, AsyncSnapshot<RESULT_TYPE>>
         listener, [
     VoidCallback? onFinally,
   ]);
+
+  /// Asynchronously executes a computation with listener callbacks in parameters for the asynchronous computation that may fail into something that is safe to read.
+  ///
+  /// This is useful to avoid having to do a tedious `try/catch/then`.
+  ///
+  /// This is same as [snapshots] except that on subsequent calls, it reruns the asynchronous computation. To get the completed result from last execution, use [snapshots].
+  Future<void> refreshSnapshots(
+    AsyncSnapshotListenerCallback<RESULT_TYPE, AsyncSnapshot<RESULT_TYPE>>
+        listener, [
+    VoidCallback? onFinally,
+  ]) {
+    buildAsyncValue();
+    return snapshots(listener, onFinally);
+  }
 
   /// A utility that uses [WhenFuture] for executing Futures with snapshots.
   static WhenFuture<RESULT_TYPE> future<RESULT_TYPE>(
