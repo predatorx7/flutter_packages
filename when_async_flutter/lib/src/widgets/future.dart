@@ -6,11 +6,14 @@ typedef WhenSnapshotWidgetBuilderCallback<RESULT_TYPE> = Widget Function(
   FutureSnapshot<RESULT_TYPE> snapshot,
 );
 
-class FutureSensitiveWidget<RESULT_TYPE> extends StatefulWidget {
+/// A builder that builds itself based on the latest snapshot from the asynchronous computation.
+///
+/// This widget can be considered a combination of [When] and [FutureBuilder].
+class WhenFutureBuilder<RESULT_TYPE> extends StatefulWidget {
   final AsyncResultBuilderCallback<Future<RESULT_TYPE>> create;
   final WhenSnapshotWidgetBuilderCallback<RESULT_TYPE> builder;
 
-  const FutureSensitiveWidget({
+  const WhenFutureBuilder({
     Key? key,
     required this.create,
     required this.builder,
@@ -18,12 +21,12 @@ class FutureSensitiveWidget<RESULT_TYPE> extends StatefulWidget {
         super(key: key);
 
   @override
-  FutureSensitiveWidgetState<RESULT_TYPE> createState() =>
-      FutureSensitiveWidgetState<RESULT_TYPE>();
+  WhenFutureBuilderState<RESULT_TYPE> createState() =>
+      WhenFutureBuilderState<RESULT_TYPE>();
 }
 
-class FutureSensitiveWidgetState<RESULT_TYPE>
-    extends State<FutureSensitiveWidget<RESULT_TYPE>> {
+class WhenFutureBuilderState<RESULT_TYPE>
+    extends State<WhenFutureBuilder<RESULT_TYPE>> {
   /// An object that identifies the currently active callbacks. Used to avoid
   /// calling setState from stale callbacks, e.g. after disposal of this state,
   /// or after widget reconfiguration to a new Future.
@@ -40,7 +43,7 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
   }
 
   @override
-  void didUpdateWidget(FutureSensitiveWidget<RESULT_TYPE> oldWidget) {
+  void didUpdateWidget(WhenFutureBuilder<RESULT_TYPE> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.create != widget.create) {
       if (_activeCallbackIdentity != null) {
