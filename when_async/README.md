@@ -5,7 +5,7 @@ Contains utility classes to work with asynchronous computations.
 ## Utilities
 
 * [When.future][whenfuture_doc] for executing Futures with snapshots.
-  - For futures, use [execute][when_execute] for one time execution. This only does the asynchronous future computation once and returns the same future's result in subsequent calls. To refresh the future again, use [refresh][when_refresh].
+  - For futures, use [execute][when_execute] for one time execution. This only does the asynchronous future computation once and returns the last future's result in subsequent calls. To refresh the future again, use [refresh][when_refresh].
   - To get snapshots of the asynchronous computation's state instead, use [snapshots][when_snapshots]. To get refreshed snapshots, use [refreshSnapshots][when_refreshsnapshots]. 
 
 ## Usage
