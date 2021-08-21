@@ -1,18 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:when_async/when_async.dart';
+// ignore: implementation_imports
+import 'package:when_async/src/future.dart' show WhenFuture;
 
 /// A [ChangeNotifier] that provides provides snapshot of a future.
-/// The future can be recreated/refreshed by calling [update] that uses [createFuture] to execute a future asynchronous computation.
+/// The future can be recreated/refreshed by calling [update] that uses [futureBuilder] to execute a future asynchronous computation.
 class WhenFutureNotifier<T> with ChangeNotifier, WhenFutureNotifierMixin<T> {
-  final Future<T> Function() createFuture;
+  final WhenFuture<T> _whenFuture;
 
-  WhenFutureNotifier(this.createFuture);
+  WhenFutureNotifier(
+    AsyncResultBuilderCallback<Future<T>> futureBuilder,
+  ) : _whenFuture = WhenFuture<T>(futureBuilder);
 
-  void update() {
+  void update({
+    FutureSnapshotListenerCallback<T>? listener,
+    VoidCallback? onFinally,
+  }) {
     setFutureValue(
-      createFuture(),
-      (snapshot) {},
-      () {},
+      _whenFuture,
+      listener,
+      onFinally,
     );
   }
 }
@@ -33,7 +40,7 @@ mixin WhenFutureNotifierMixin<T> on ChangeNotifier {
 
   T? get data => snapshot.data;
 
-  FutureSnapshotState get state => snapshot.state;
+  AsyncSnapshotState get state => snapshot.state;
 
   /// An object that identifies the currently active callbacks. Used to avoid
   /// calling setState from stale callbacks, e.g. after disposal of this state,
@@ -49,14 +56,14 @@ mixin WhenFutureNotifierMixin<T> on ChangeNotifier {
   /// Sets a value after an asynchronous computation that returned a future
   @protected
   Future<void> setFutureValue(
-    Future<T> future,
+    WhenFuture<T> whenFuture,
     FutureSnapshotListenerCallback<T>? listener,
     VoidCallback? onFinally,
   ) {
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
 
-    return When.future<T>(future).snapshots(
+    return whenFuture.snapshots(
       (snapshot) {
         if (_activeCallbackIdentity != callbackIdentity) return;
 

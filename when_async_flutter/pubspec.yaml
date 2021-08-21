@@ -1,6 +1,6 @@
 name: when_async_flutter
 description: Contains widgets, notifiers, etc to work with asynchronous computations.
-version: 1.1.0
+version: 1.2.0
 homepage: https://magnificsoftware.com
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  when_async: ^1.1.0+1
+  when_async: ^1.2.1
 
 dev_dependencies:
   flutter_test:

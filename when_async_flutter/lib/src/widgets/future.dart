@@ -1,15 +1,20 @@
 import 'package:flutter/widgets.dart';
 import 'package:when_async/when_async.dart';
 
+typedef WhenSnapshotWidgetBuilderCallback<RESULT_TYPE> = Widget Function(
+  BuildContext context,
+  FutureSnapshot<RESULT_TYPE> snapshot,
+);
+
 class FutureSensitiveWidget<RESULT_TYPE> extends StatefulWidget {
-  final Future<RESULT_TYPE> future;
-  final Widget Function(BuildContext context, FutureSnapshot snapshot) builder;
+  final AsyncResultBuilderCallback<Future<RESULT_TYPE>> create;
+  final WhenSnapshotWidgetBuilderCallback<RESULT_TYPE> builder;
 
   const FutureSensitiveWidget({
     Key? key,
-    required this.future,
+    required this.create,
     required this.builder,
-  })  : assert(future != null && builder != null),
+  })  : assert(create != null && builder != null),
         super(key: key);
 
   @override
@@ -29,17 +34,19 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
   @override
   void initState() {
     super.initState();
-    _lastSnapshot = FutureSnapshot<RESULT_TYPE>.loading();
+    _lastSnapshot =
+        FutureSnapshot<RESULT_TYPE>.state(AsyncSnapshotState.uninitialized);
     _subscribe();
   }
 
   @override
   void didUpdateWidget(FutureSensitiveWidget<RESULT_TYPE> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.future != widget.future) {
+    if (oldWidget.create != widget.create) {
       if (_activeCallbackIdentity != null) {
         _unsubscribe();
-        _lastSnapshot = FutureSnapshot<RESULT_TYPE>.loading();
+        _lastSnapshot =
+            FutureSnapshot<RESULT_TYPE>.state(AsyncSnapshotState.uninitialized);
       }
       _subscribe();
     }
@@ -57,23 +64,24 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
 
-    When.future<RESULT_TYPE>(widget.future).execute(
-      onComplete: (it) {
+    When.future<RESULT_TYPE>(widget.create).snapshots(
+      (snapshot) {
         if (!mounted) return;
 
         if (_activeCallbackIdentity != callbackIdentity) return;
 
         setState(() {
-          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.complete(it);
+          _lastSnapshot = snapshot;
         });
       },
-      onError: (e, s) {
+      () {
         if (!mounted) return;
 
         if (_activeCallbackIdentity != callbackIdentity) return;
 
         setState(() {
-          _lastSnapshot = FutureSnapshot<RESULT_TYPE>.error(e, s);
+          _lastSnapshot =
+              FutureSnapshot<RESULT_TYPE>.state(AsyncSnapshotState.finalized);
         });
       },
     );
@@ -91,7 +99,8 @@ class FutureSensitiveWidgetState<RESULT_TYPE>
     }
 
     setState(() {
-      _lastSnapshot = FutureSnapshot<RESULT_TYPE>.loading();
+      _lastSnapshot =
+          FutureSnapshot<RESULT_TYPE>.state(AsyncSnapshotState.uninitialized);
     });
 
     _subscribe();
