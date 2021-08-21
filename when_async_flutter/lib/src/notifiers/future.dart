@@ -3,15 +3,18 @@ import 'package:when_async/when_async.dart';
 // ignore: implementation_imports
 import 'package:when_async/src/future.dart' show WhenFuture;
 
-/// A [ChangeNotifier] that provides provides snapshot of a future.
-/// The future can be recreated/refreshed by calling [update] that uses [futureBuilder] to execute a future asynchronous computation.
+/// A [ChangeNotifier] that provides snapshot of a future.
+/// The future can be recreated/refreshed by calling [update]. that uses [futureBuilder] to execute a future asynchronous computation.
 class WhenFutureNotifier<T> with ChangeNotifier, WhenFutureNotifierMixin<T> {
   final WhenFuture<T> _whenFuture;
 
+  /// Creates a [WhenFutureNotifier] that provides snapshot of a future as a [ChangeNotifer].
+  /// The [futureBuilder] is used to build a future value.
   WhenFutureNotifier(
     AsyncResultBuilderCallback<Future<T>> futureBuilder,
   ) : _whenFuture = WhenFuture<T>(futureBuilder);
 
+  /// Refreshes/Redoes a future asynchronous computation.
   void update({
     FutureSnapshotListenerCallback<T>? listener,
     VoidCallback? onFinally,
