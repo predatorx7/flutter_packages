@@ -33,7 +33,7 @@ class WhenFutureNotifier<T> with ChangeNotifier, WhenFutureNotifierMixin<T> {
 mixin WhenFutureNotifierMixin<T> on ChangeNotifier {
   FutureSnapshot<T> get snapshot => _snapshot;
 
-  FutureSnapshot<T> _snapshot = FutureSnapshot<T>.loading();
+  FutureSnapshot<T> _snapshot = FutureSnapshot<T>.state(AsyncSnapshotState.uninitialized);
 
   void _updateSnapshot(FutureSnapshot<T> newValue) {
     if (_snapshot == newValue) return;

@@ -10,3 +10,7 @@
 
 * Breaking: Add a future creation function for lazy future building instead of taking a future as a value in Widget constructor.
 * Breaking: Rename FutureSensitiveWidget to WhenFutureBuilder.
+
+## 1.2.0+1
+
+* Add initial snapshot state with uninitialized in WhenFutureNotifierMixin
