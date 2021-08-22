@@ -66,12 +66,12 @@ mixin WhenFutureNotifierMixin<T> on ChangeNotifier {
     final Object callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
 
-    return whenFuture.snapshots(
+    return whenFuture.refreshSnapshots(
       (snapshot) {
         if (_activeCallbackIdentity != callbackIdentity) return;
 
-        listener?.call(snapshot);
-        _updateSnapshot(snapshot);
+        listener?.call(snapshot as FutureSnapshot<T>);
+        _updateSnapshot(snapshot as FutureSnapshot<T>);
       },
       () {
         if (_activeCallbackIdentity != callbackIdentity) return;
