@@ -1,7 +1,7 @@
 name: navigator
 description: An easy yet powerful navigator for simple flutter apps.
 version: 0.1.0
-homepage: magnificsoftware.com
+homepage: https://magnificsoftware.com
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
