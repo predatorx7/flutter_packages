@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:when_async/when_async.dart';
 // ignore: implementation_imports
 import 'package:when_async/src/future.dart' show WhenFuture;
+import 'package:when_async/when_async.dart';
 
 /// A [ChangeNotifier] that provides snapshot of a future.
 /// The future can be recreated/refreshed by calling [update]. that uses [futureBuilder] to execute a future asynchronous computation.

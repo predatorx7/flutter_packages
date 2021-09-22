@@ -15,3 +15,8 @@
 * Breaking: Add uninitialized future snapshot state
 * Breaking: Add a async value builder callback for lazy building and recreation of when classes.
 * Add APIs to refresh/redo an asynchronous computation.
+
+## 1.2.2
+
+* Add Mutable value holder class
+* export future.dart

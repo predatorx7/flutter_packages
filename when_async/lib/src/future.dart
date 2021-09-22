@@ -2,6 +2,12 @@ import 'data/future_snapshot.dart';
 import 'typedefs.dart';
 import 'when_async_base.dart';
 
+class MutableArgument<T> {
+  T value;
+
+  MutableArgument(this.value);
+}
+
 /// A utitlity that asynchronously creates a single value from a [Future].
 ///
 /// By using [WhenFuture], the code dependent on the result will be able to read the state of the asynchronous computation synchronously, handle the loading/error/finalize states, and complete when the computation completes.

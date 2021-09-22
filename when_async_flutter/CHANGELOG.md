@@ -18,3 +18,7 @@
 ## 1.2.0+2
 
 * Fix [WhenFutureNotifier.update] to refresh the future instead of using the old future's snapshots.
+
+## 1.2.1
+
+* Make future that changes parameters
