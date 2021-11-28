@@ -11,6 +11,7 @@ class LoggingManager {
     LoggingTree? tree,
     this.onFlutterErrorHandler,
   }) : root = Logger(loggerName) {
+    hierarchicalLoggingEnabled = true;
     root.level = level ?? Level.INFO;
     if (tree != null) {
       plantTree(tree);
