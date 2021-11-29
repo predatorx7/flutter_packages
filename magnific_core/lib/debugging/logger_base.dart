@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ansicolor/ansicolor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' show mustCallSuper;
 import 'package:logging/logging.dart';
@@ -203,8 +204,8 @@ abstract class FormattedOutputLogsTree with LoggingTree {
     LogLineInfo info,
   ) {
     final _timestamp = record.time.toIso8601String();
-    final _level = record.level.toString();
-    final _tag = info.tag;
+    final _level = describeEnum(record.level);
+    final _tag = LogLineInfo.getTag(record: record);
     final _message = record.message;
     return '$_timestamp\t$_level $_tag: $_message';
   }
@@ -229,8 +230,12 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   /// - when -1 will disable chunking of the logs
   final int maxLineSize;
 
+  /// Value of [level.value] >= this will allow print of stacktrace
+  final int stacktracePrintingThreshold;
+
   PrintingLogsTree({
     this.maxLineSize = 800,
+    this.stacktracePrintingThreshold = 900,
   });
 
   @override
@@ -275,9 +280,23 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     FormattedStackTrace stackTrace,
   ) {
     final _error = errors == null ? '' : '\n${errors.toString()}';
-    final _stacktrace = stackTrace.toText();
-    final _message = '$messageText$objectText$_error\n$_stacktrace';
+    final _stacktrace = getStacktraceAsTextForPrinting(
+      stackTrace,
+      level,
+    );
+    final _message = '$messageText$objectText$_error$_stacktrace';
     printSingleLog(_message, level);
+  }
+
+  String getStacktraceAsTextForPrinting(
+    FormattedStackTrace stacktrace,
+    Level level,
+  ) {
+    if (level.value <= stacktracePrintingThreshold) {
+      return '';
+    }
+    final _stacktrace = stacktrace.toText();
+    return '\n$_stacktrace';
   }
 
   void printSingleLog(

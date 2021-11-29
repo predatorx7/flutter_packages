@@ -1,7 +1,9 @@
-/// Valuable string utility class
+/// Valuable string utility class.
+/// This can help with various simple string based computations like checking a string is blank, etc.
 class StringX {
   StringX._();
 
+  /// Extract numbers from a string. One usecase where this might be useful is for extracting phone numbers from a string.
   static String getNumbersOnly(String? value) {
     return value?.replaceAll(RegExp(r'[^0-9]'), '') ?? '';
   }
@@ -22,14 +24,17 @@ class StringX {
     return !isBlank(value);
   }
 
+  /// Returns [defaultValue] if [value] is blank.
   static String value(String? value, [String defaultValue = '']) {
     return isNotBlank(value) ? value! : defaultValue;
   }
 
+  /// Returns [defaultValue] if [object?.toString()] is blank.
   static String objectValue(Object? object, [String defaultValue = '']) {
     return value(object?.toString(), defaultValue);
   }
 
+  /// Compares two strings in case insensitive manner without leading or trailing spaces.
   static bool areLooslyEquals(String? value, String? other) {
     if (isBlank(value) && isBlank(other)) {
       return true;
@@ -37,26 +42,30 @@ class StringX {
     if (isBlank(value) || isBlank(other)) {
       return false;
     }
-    return value!.trim().toLowerCase() == other!.trim().toLowerCase();
+    return clean(value!) == clean(other!);
   }
 
   /// Returns a value that can be loosely compared with another value.
-  /// Trim whitespaces at start and end of this and convert to lowercase. Useful when comparing text.
-  String looselyComparable(String value) => value.trim().toLowerCase();
+  /// Trims whitespaces at start and end of [value] and convert to lowercase. Useful when comparing with other text.
+  static String looselyComparable(String value) => value.trim().toLowerCase();
 
-  String clean(String value) => looselyComparable(value);
+  /// Returns a value that can be loosely compared with another value.
+  /// Trims whitespaces at start and end of [value] and convert to lowercase. Useful when comparing with other text.
+  static String clean(String value) => looselyComparable(value);
 
   /// Capitalize first letter for each word in a string
-  String titleCase(String value) => value
+  static String titleCase(String value) => value
       .split(' ')
       .map((word) => word[0].toUpperCase() + word.substring(1))
       .join(' ');
 
-  bool isYes(String? value) {
+  /// Returns true if this [value] is close to being a 'yes'.
+  static bool isYes(String? value) {
     return value?.toLowerCase().trim().startsWith('y') ?? false;
   }
 
-  bool isNo(String? value) {
+  /// Returns true if this [value] is close to being a 'no'.
+  static bool isNo(String? value) {
     return value?.toLowerCase().trim().startsWith('n') ?? false;
   }
 }

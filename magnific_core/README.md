@@ -4,8 +4,27 @@ Common set of core utilities that a flutter app might need for bootstrap, valida
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+### Debugging
+- logger: A powerful logging utility that can be used to send logs to remote servers like Crashlytics. 
+- Magnific core adds a `LoggingManager` over the logger of `package:logging` for managing the logs.
 
+### Images
+
+- A simple `cachedImageProviderFactory` that returns a `CachedNetworkImageProvider` of the `package:cached_network_image` in release mode on non-webs. Returns a regular `NetworkImage` while debugging or when target is web. (This can be disabled by setting `doNotCacheInDebug` to `false`).
+
+### Strings
+
+- StringX: A simple but powerful string utility with various different functionalities like checking a string is blank.
+- JWTDecoder: A class to read JWT token's values, it's expiry, payload.
+- StringValidate: A class that can be used for validation in TextFormFields. Multiple validators can be used together like this: 
+`validate: (it) => StringValidate.isEmpty(it) ?? StringValidate.mobilenumber(it)`.
+- `encodeQueryParameters` to Encode a map as html query parameters.
+
+### System
+
+- `BootstrapApp` to initialize your app with logging and initial dependencies that are required before app starts up.
+- `AppSystemUIOverlayStyle` to change top system status bar and bottom system navigation bar colors.
+ 
 ## Getting started
 
 TODO: List prerequisites and provide or point to information on how to

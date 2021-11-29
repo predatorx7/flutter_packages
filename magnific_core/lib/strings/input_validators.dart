@@ -30,13 +30,13 @@ class StringValidate {
     }
   }
 
-  String? fieldIsEmpty(String? value, String validationMessage) {
+  String? isEmpty(String? value, String validationMessage) {
     if (value?.isEmpty ?? true) {
       return validationMessage;
     }
   }
 
-  String? fieldIsBlank(String? value, String validationMessage) {
+  String? isBlank(String? value, String validationMessage) {
     if (StringX.isBlank(value)) {
       return validationMessage;
     }
