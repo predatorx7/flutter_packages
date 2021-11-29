@@ -265,9 +265,12 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
       final pattern = RegExp('.{1,$maxLineSize}');
       final _error = record.error;
       final _errorText = _error == null ? '' : '\n${_error.toString()}';
+      final _stacktrace = getStacktraceAsTextForPrinting(
+        stacktrace,
+        record.level,
+      );
 
-      final _wholeMessage =
-          '$messageText$objectText$_errorText\n${stacktrace.toText()}';
+      final _wholeMessage = '$messageText$objectText$_errorText$_stacktrace';
 
       final matches = pattern.allMatches(_wholeMessage);
 
