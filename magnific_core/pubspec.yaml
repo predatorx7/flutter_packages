@@ -1,6 +1,6 @@
 name: magnific_core
 description: Common set of core utilities that a flutter app might need
-version: 0.1.0+2
+version: 0.1.0+3
 homepage: https://magnificsoftware.com
 
 environment:
@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   ansicolor: ^2.0.1
-  cached_network_image: ^3.1.0+1
   device_info_plus: ^3.1.1
   flutter:
     sdk: flutter

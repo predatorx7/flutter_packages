@@ -1,3 +1,7 @@
+## 0.1.0+3
+
+* Remove CachedNetworkImage from dependencies.
+
 ## 0.1.0+2
 
 * Add stacktrace printing threshold.

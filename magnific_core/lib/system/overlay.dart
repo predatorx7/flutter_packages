@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:magnific_core/theme/colors.dart';
 
+/// Change system ui overlay colors and styles to match the theme.
 class AppSystemUIOverlayStyle {
   AppSystemUIOverlayStyle._();
 
-  static SystemUiOverlayStyle build({
+  /// Set overlay colors with all values of brightness and color for navigation and status bar separately.
+  static SystemUiOverlayStyle set({
     required Brightness statusBarBrightness,
     required Color statusBarColor,
     Brightness? navigationBarBrightness,
@@ -34,6 +36,7 @@ class AppSystemUIOverlayStyle {
     );
   }
 
+  /// Set overlay colors from a [ColorScheme].
   static SystemUiOverlayStyle fromScheme(
     ColorScheme colorScheme, {
     Color? statusBarColor,
@@ -50,7 +53,7 @@ class AppSystemUIOverlayStyle {
           colorScheme.surface,
         );
 
-    return AppSystemUIOverlayStyle.build(
+    return AppSystemUIOverlayStyle.set(
       statusBarBrightness: statusBarBrightness,
       statusBarColor: _statusbarColor,
       navigationBarBrightness: navigationBarBrightness,
@@ -58,12 +61,13 @@ class AppSystemUIOverlayStyle {
     );
   }
 
+  /// Set overlay colors from a [Color].
   static SystemUiOverlayStyle fromColor(
     Color color, {
     Brightness statusBarBrightness = Brightness.dark,
     Brightness navigationBarBrightness = Brightness.dark,
   }) {
-    return AppSystemUIOverlayStyle.build(
+    return AppSystemUIOverlayStyle.set(
       statusBarBrightness: statusBarBrightness,
       statusBarColor: color,
       navigationBarBrightness: navigationBarBrightness,

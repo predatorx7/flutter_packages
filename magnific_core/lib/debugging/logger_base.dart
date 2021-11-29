@@ -128,10 +128,13 @@ mixin LoggingTree {
   bool get isPlanted => _isPlanted;
 
   @mustCallSuper
+
+  /// Attach this logging mechanism to a Manager.
   void onPlant() {
     _isPlanted = true;
   }
 
+  /// Recieve a [FlutterErrorDetails].
   void onFlutterError(FlutterErrorDetails details) {
     if (!isPlanted) return;
     final message = details.exceptionAsString();
@@ -146,6 +149,7 @@ mixin LoggingTree {
     ));
   }
 
+  /// Listener to records of log streams.
   void onRecord(LogRecord record) {
     if (!isPlanted) return;
     final info = LogLineInfo.get(
@@ -155,12 +159,14 @@ mixin LoggingTree {
     log(record, info);
   }
 
+  /// Act on the log [record] with [info].
   void log(
     LogRecord record,
     LogLineInfo info,
   );
 
   @mustCallSuper
+  /// De-attach this logging mechanism from a Manager.
   void onRemove() {
     _isPlanted = false;
   }
