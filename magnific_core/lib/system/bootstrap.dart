@@ -16,7 +16,7 @@ LoggingManager _loggingManager = LoggingManager();
 /// Use to apply/initialize configurations like debugging, analytics, etc to the Flutter app.
 class BootstrapApp {
   /// Creates an App bootstrapper with [futures] and [loggingManager].
-  /// 
+  ///
   /// Note: By default, the [loggingManager] does not have a logging mechanism. For that, you have to provde a [LoggingTree] to it.
   BootstrapApp({
     required this.loggingManager,

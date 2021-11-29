@@ -166,6 +166,7 @@ mixin LoggingTree {
   );
 
   @mustCallSuper
+
   /// De-attach this logging mechanism from a Manager.
   void onRemove() {
     _isPlanted = false;

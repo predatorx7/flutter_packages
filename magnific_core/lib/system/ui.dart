@@ -8,9 +8,9 @@ class SystemUIControls {
     return SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
-  /// Enables landscape orientation by switching to landscapeRight orientation 
+  /// Enables landscape orientation by switching to landscapeRight orientation
   /// and then enabling [DeviceOrientation.landscapeRight] and [DeviceOrientation.landscapeLeft] orientations.
-  /// 
+  ///
   /// ### Note
   /// 1. iPhone users generally prefers full screen apps to have this orientation; Thus, this method sets orientation to `landscapeRight` first.
   /// 2. You can opt out of multitasking by setting "Requires full screen" to true in the Xcode Deployment Info to resolve limitation in [SystemChrome.setPreferredOrientations].
