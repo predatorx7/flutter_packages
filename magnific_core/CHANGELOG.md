@@ -1,3 +1,8 @@
+## 0.1.0+4
+
+* Fix logging issue caused by incorrect string converstion of Level
+* Change bootsrap API
+
 ## 0.1.0+3
 
 * Remove CachedNetworkImage from dependencies.

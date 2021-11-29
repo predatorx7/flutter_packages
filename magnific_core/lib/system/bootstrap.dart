@@ -19,23 +19,32 @@ class BootstrapApp {
   ///
   /// Note: By default, the [loggingManager] does not have a logging mechanism. For that, you have to provde a [LoggingTree] to it.
   BootstrapApp({
+    this.onStart,
     required this.loggingManager,
-    this.futures = const <Future>[],
+    required this.onStarted,
   });
 
-  final LoggingManager loggingManager;
-  final Iterable<Future> futures;
+  /// Called after `WidgetsFlutterBinding.ensureInitialized` and before initialization of logger.
+  final Future<void> Function()? onStart;
+  final LoggingManager Function() loggingManager;
 
-  ///
-  Future<void> start(
-    void Function() app,
-  ) async {
+  /// Called immediately after initialization of logger.
+  final Iterable<Future> Function()? onStarted;
+
+  Future<void> start(void Function() app) async {
     WidgetsFlutterBinding.ensureInitialized();
-    _loggingManager = loggingManager;
 
-    await Future.wait(futures);
+    if (onStart != null) {
+      await onStart!();
+    }
 
-    FlutterError.onError = loggingManager.onFlutterError;
+    _loggingManager = loggingManager();
+
+    FlutterError.onError = _loggingManager.onFlutterError;
+
+    if (onStarted != null) {
+      await Future.wait(onStarted!());
+    }
 
     runZonedGuarded<void>(
       app,

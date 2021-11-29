@@ -211,7 +211,7 @@ abstract class FormattedOutputLogsTree with LoggingTree {
     LogLineInfo info,
   ) {
     final _timestamp = record.time.toIso8601String();
-    final _level = describeEnum(record.level);
+    final _level = record.level.name;
     final _tag = LogLineInfo.getTag(record: record);
     final _message = record.message;
     return '$_timestamp\t$_level $_tag: $_message';
@@ -342,6 +342,14 @@ class AnsiColor {
 }
 
 class PrintingColoredLogsTree extends PrintingLogsTree {
+  PrintingColoredLogsTree({
+    int maxLineSize = 800,
+    int stacktracePrintingThreshold = 900,
+  }) : super(
+          maxLineSize: maxLineSize,
+          stacktracePrintingThreshold: stacktracePrintingThreshold,
+        );
+
   static final levelColors = {
     Level.ALL: AnsiColor.grey(),
     Level.FINEST: AnsiColor.grey(),
