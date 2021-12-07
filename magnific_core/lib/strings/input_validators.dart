@@ -30,41 +30,73 @@ class StringValidate {
     }
   }
 
-  String? isEmpty(String? value, String validationMessage) {
+  static String? isEmpty(String? value, String validationMessage) {
     if (value?.isEmpty ?? true) {
       return validationMessage;
     }
   }
 
-  String? isBlank(String? value, String validationMessage) {
+  static String? isBlank(String? value, String validationMessage) {
     if (StringX.isBlank(value)) {
       return validationMessage;
     }
   }
 
-  String? username(String? value, String validationMessage) {
-    const _pattern = '[a-zA-Z0-9\\-_]{2,256}@[a-zA-Z0-9.\\-_]{2,64}';
-    final _regExp = RegExp(_pattern);
+  static String? username(
+    String? value, {
+    String validationMessage = 'Invalid username',
+  }) {
+    final _regExp = RegExp(CommonRegexPatterns.usernamePattern);
     if (_regExp.hasMatch(value ?? '')) {
       return null;
     }
     return validationMessage;
   }
 
-  String? mobileNumber(
+  static String? mobileNumber(
     String? value, [
     String validationMessage = 'Invalid contact number',
   ]) {
     if (StringX.isBlank(value)) {
       return null;
     }
-    if (value?.trim() == '+91') {
-      return null;
-    }
-    final _regExp = RegExp(r'^(\+\d{1,3}[- ]?)?\d{10}$');
+    final _regExp = RegExp(CommonRegexPatterns.mobileNumberPattern);
     if (_regExp.hasMatch(value ?? '')) {
       return null;
     }
     return validationMessage;
   }
+
+  static String? emailAddress(
+    String? value, [
+    String validationMessage = 'Invalid email address',
+  ]) {
+    if (StringX.isBlank(value)) {
+      return null;
+    }
+    final _regExp = RegExp(CommonRegexPatterns.emailPattern);
+    if (_regExp.hasMatch(value ?? '')) {
+      return null;
+    }
+    return validationMessage;
+  }
+}
+
+/// Common regex patterns that can be used for string validation.
+class CommonRegexPatterns {
+  CommonRegexPatterns._();
+
+  /// A weak mobile number regex pattern that allows a single country code of max 3 digits and a 10 digit local number.
+  static const mobileNumberPattern = r'^(\+\d{1,3}[- ]?)?\d{10}$';
+
+  /// HTML spec suggested email validation pattern
+  /// Reference: https://html.spec.whatwg.org/#e-mail-state-(type=email)
+  static const emailPattern =
+      r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
+  /// A common username pattern which expects inputs like example, exmaple@someting, example@somthing.com, example.something, etc.
+  static const usernamePattern =
+      r'[a-zA-Z0-9\-_]{2,256}(@[a-zA-Z0-9.\-_]{2,64})|(.[a-zA-Z0-9.\-_]{2,256})';
+  static const passwordPattern =
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$';
 }

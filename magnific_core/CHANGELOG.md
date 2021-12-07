@@ -1,3 +1,9 @@
+## 0.1.1
+
+* Convert unaccessible instance methods to static members in InputValidators.
+* Add RepositoryError.
+* Add CommonRegexPatterns.
+
 ## 0.1.0+5
 
 * Fix printing of stack trace for all logs.
