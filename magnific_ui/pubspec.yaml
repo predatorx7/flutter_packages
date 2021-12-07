@@ -1,6 +1,6 @@
 name: magnific_ui
-description: Common extra flutter UI components that might be needed in every app
-version: 0.1.0
+description: Extra flutter UI components that every app might be need
+version: 0.2.0
 homepage: https://magnificsoftware.com
 
 environment:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 /// An icon that comes from an [ImageProvider], e.g. an [AssetImage].
+/// The only difference between this and [ImageIcon] is [ignoreIconColor].
 ///
 /// See also:
 ///
