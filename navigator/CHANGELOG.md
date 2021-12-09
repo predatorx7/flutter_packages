@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Add navigateFromString in LinkRouter
+
 ## 0.2.0
 
 * Add named navigation path

@@ -23,7 +23,7 @@ class RouterConfiguration with LinkRouter {
 
   @override
   @protected
-  final LinkNavigator? linkNavigator;
+  final LinkNavigatorInterface? linkNavigator;
 
   RouterConfiguration(
     this.paths, {
@@ -32,6 +32,7 @@ class RouterConfiguration with LinkRouter {
 
   Route<dynamic>? _lastGeneratedRoute;
 
+  @override
   Route<dynamic>? get lastGeneratedRoute => _lastGeneratedRoute;
 
   /// The route generator callback used when the app is navigated to a named
