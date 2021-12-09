@@ -1,5 +1,5 @@
-// import 'package:flutter/foundation.dart'
-//     show FlutterErrorDetails, FlutterExceptionHandler;
+import 'package:flutter/foundation.dart'
+    show FlutterErrorDetails, FlutterExceptionHandler;
 import 'package:logging/logging.dart';
 
 import 'logger_base.dart';

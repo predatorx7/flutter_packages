@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:ansicolor/ansicolor.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 /// Log Line Information.

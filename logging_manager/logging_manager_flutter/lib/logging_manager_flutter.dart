@@ -1,18 +1,27 @@
-import 'dart:async';
+import 'dart:async' show Zone;
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:logging/logging.dart';
+import 'package:flutter/widgets.dart' show FlutterErrorDetails;
 import 'package:logging_manager/logging_manager.dart';
 
 export 'package:logging_manager/logging_manager.dart';
 
-extension LoggingTreeX on LoggingTree {
-  /// Recieve a [FlutterErrorDetails].
+class FlutterLoggingManager extends LoggingManager {
+  FlutterLoggingManager({
+    String loggerName = 'LoggingManager',
+    Level? level = Level.ALL,
+    LoggingTree? tree,
+  }) : super(
+          loggerName: loggerName,
+          level: level,
+          tree: tree,
+        );
+
+  Logger get logger => root;
+
+  /// Creates a log from [FlutterErrorDetails].
   void onFlutterError(FlutterErrorDetails details) {
-    if (!isPlanted) return;
     final message = details.exceptionAsString();
-    onRecord(LogRecord(
+    addLogRecord(LogRecord(
       Level.WARNING,
       message,
       'FlutterErrorDetails',
@@ -22,15 +31,4 @@ extension LoggingTreeX on LoggingTree {
       details,
     ));
   }
-}
-
-class FlutterLoggingManager extends LoggingManager {
-  /// Creates a log from [FlutterErrorDetails].
-  void onFlutterError(FlutterErrorDetails details) {
-    _loggingTree?.onFlutterError(details);
-  }
-}
-
-void main() {
-  final x = LoggingManager();
 }
