@@ -1,2 +1,1 @@
-export 'logger_base.dart';
-export 'logger.dart';
+export 'package:logging_manager_flutter/logging_manager_flutter.dart';

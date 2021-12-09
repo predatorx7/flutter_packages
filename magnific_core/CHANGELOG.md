@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Replace debugging code with `logging_manager_flutter` package.
+
 ## 0.1.1
 
 * Convert unaccessible instance methods to static members in InputValidators.

@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
-import 'package:magnific_core/debugging/logger.dart';
-import 'package:magnific_core/debugging/logger_base.dart';
+import 'package:magnific_core/debugging/debugging.dart';
 
 /// The main logger for the app. This is initialized by [loggingManager].
 Logger get logger => _loggingManager.root;
 
 /// The logging manager that manages the [logger]. This initializes [logger] in [BootstrapApp.start].
-LoggingManager get loggingManager => _loggingManager;
+FlutterLoggingManager get loggingManager => _loggingManager;
 
-LoggingManager _loggingManager = LoggingManager();
+FlutterLoggingManager _loggingManager = FlutterLoggingManager();
 
 /// Use to apply/initialize configurations like debugging, analytics, etc to the Flutter app.
 class BootstrapApp {
@@ -26,7 +24,7 @@ class BootstrapApp {
 
   /// Called after `WidgetsFlutterBinding.ensureInitialized` and before initialization of logger.
   final Future<void> Function()? onStart;
-  final LoggingManager Function() loggingManager;
+  final FlutterLoggingManager Function() loggingManager;
 
   /// Called immediately after initialization of logger.
   final Iterable<Future> Function()? onStarted;
