@@ -5,11 +5,11 @@ import 'package:meta/meta.dart';
 import 'manager.dart';
 import 'line_info.dart';
 
-/// An object that recieves logs from [Logger] and performs an action 
+/// An object that recieves logs from [Logger] and performs an action
 /// using them, example: Printing, Printing colored logs, Sending logs to analytics, etc.
-/// 
+///
 /// This is attached as a listener to logs sent from logger by the [LoggingManager].
-/// 
+///
 /// Some available trees:
 ///
 /// - [PrintingColoredLogsTree]

@@ -1,10 +1,11 @@
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import 'tree.dart';
 
 /// A manager that manages the [Logger] instances (provided as [root]).
 ///
-/// Note: 
+/// Note:
 /// - By default, the [loggingManager] does not have a logging mechanism. For that, you have to provde a [LoggingTree] to it.
 /// - A LoggingTree is responsible for doing something with logs. If none provided, nothing will happen.
 class LoggingManager {
@@ -50,6 +51,11 @@ class LoggingManager {
 
   void _logRecordListener(LogRecord record) {
     _loggingTree?.onRecord(record);
+  }
+
+  @protected
+  void addLogRecord(LogRecord record) {
+    _logRecordListener(record);
   }
 
   /// A stream of logs that can be listened to. This closes when the [LoggingManager] is disposed.

@@ -2,12 +2,16 @@
 
 [![Pub:logging](https://img.shields.io/pub/v/logging_manager.svg)](https://pub.dev/packages/logging_manager)
 
-A manager for [pub.dev:logging](https://pub.dev/packages/logging). Provides simple APIs to change the way logs are handled. 
+Provides simple APIs for logging & managing logs. Uses the logger from [pub.dev:logging](https://pub.dev/packages/logging).
+
+If using flutter, import [pub.dev:logging_manager_flutter](https://pub.dev/packages/logging_manager_flutter) instead.
 
 ## Features
 
 - `LoggingTree` is attached as a listener to logs sent from logger by the `LoggingManager`. Implementations are: PrintingColoredLogsTree, PrintingLogsTree, FormattedOutputLogsTree.
 - `LoggingManager` can be used to create a logger, listen to logs, change `LoggingTree`s.
+
+
 
 ## Getting started
 
