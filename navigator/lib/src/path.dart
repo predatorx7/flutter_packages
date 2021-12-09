@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show BuildContext, RouteSettings, Widget;
 
 import 'typedefs.dart';
 
@@ -38,4 +39,70 @@ class NavigationPath {
     this.routeSettings,
     this.routeBuilder,
   });
+}
+
+/// A navigation path that is used to navigate to a named route.
+class NamedPath extends NavigationPath {
+  NamedPath(
+    String pathName,
+    PathWidgetBuilder builder,
+    RouteSettingsBuilder? routeSettings,
+    RouteBuilder? routeBuilder,
+  ) : super(
+          matcher: (settings) => settings?.name == pathName,
+          builder: builder,
+          routeSettings: routeSettings,
+          routeBuilder: routeBuilder,
+        );
+}
+
+/// Works only if settings is of type [ScreenTypeRouteSettings].
+class TypeNavigationPath<T extends Widget> extends NavigationPath {
+  TypeNavigationPath(
+    RouteSettingsBuilder? routeSettings,
+    RouteBuilder? routeBuilder,
+  ) : super(
+          matcher: (settings) => settings?.arguments is ScreenBuilder<T>,
+          builder: _pathWidgetBuilder,
+          routeSettings: routeSettings,
+          routeBuilder: routeBuilder,
+        );
+
+  static Widget _pathWidgetBuilder(
+    BuildContext context,
+    RouteSettings settings,
+  ) {
+    return (settings.arguments as ScreenBuilder).screenBuilder(
+      context,
+      settings,
+    );
+  }
+}
+
+typedef ScreenBuilderCallback<T extends Widget> = T Function(
+  BuildContext context,
+  RouteSettings settings,
+);
+
+/// Data that might be useful in constructing a [Widget] screen.
+@immutable
+class ScreenBuilder<T extends Widget> {
+  /// Creates data used to construct screens.
+  const ScreenBuilder({
+    required this.screenBuilder,
+  });
+
+  /// Creates a copy of this screen builder object with the given fields
+  /// replaced with the new values.
+  ScreenBuilder<T> copyWith({
+    String? name,
+    Object? arguments,
+    ScreenBuilderCallback<T>? screenBuilder,
+  }) {
+    return ScreenBuilder<T>(
+      screenBuilder: screenBuilder ?? this.screenBuilder,
+    );
+  }
+
+  final ScreenBuilderCallback<T> screenBuilder;
 }

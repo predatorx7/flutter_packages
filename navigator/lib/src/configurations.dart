@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart' hide Path;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Path;
+import 'package:navigator/src/link_navigation.dart';
 
 import 'package:navigator/src/logger.dart';
 
 import 'page_route.dart';
 import 'path.dart';
 
-class RouteConfiguration {
+class RouterConfiguration with LinkRouter {
   /// List of [NavigationPath] for route matching. When a named route is pushed with
   /// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher]
   /// in the list below. As soon as there is a match, the associated builder
@@ -17,9 +17,18 @@ class RouteConfiguration {
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  RouteConfiguration(
-    this.paths,
-  );
+  @protected
+  @override
+  NavigatorState? get navigatorState => navigatorKey.currentState;
+
+  @override
+  @protected
+  final LinkNavigator? linkNavigator;
+
+  RouterConfiguration(
+    this.paths, {
+    this.linkNavigator,
+  });
 
   Route<dynamic>? _lastGeneratedRoute;
 
