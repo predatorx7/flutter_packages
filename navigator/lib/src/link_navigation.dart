@@ -7,14 +7,14 @@ typedef NavigateOnLinkCallback = Future<void> Function(
   LinkRouterData data,
 );
 
-abstract class LinkNavigatorInterface {
+mixin LinkNavigatorInterface {
   Future<void> navigate(
     Uri link,
     LinkRouterData data,
   );
 }
 
-class LinkNavigator implements LinkNavigatorInterface {
+class LinkNavigator with LinkNavigatorInterface {
   const LinkNavigator(this.onNavigationRequest);
 
   final NavigateOnLinkCallback onNavigationRequest;
