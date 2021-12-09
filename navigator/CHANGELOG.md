@@ -1,3 +1,7 @@
+## 0.2.1+1
+
+* Add missing exports
+
 ## 0.2.1
 
 * Add navigateFromString in LinkRouter
