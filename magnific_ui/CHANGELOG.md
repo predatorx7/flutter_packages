@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Update flutter_svg
+
 ## 0.2.0
 
 * Change API of Single Async Scope.

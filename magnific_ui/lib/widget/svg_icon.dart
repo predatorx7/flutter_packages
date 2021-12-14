@@ -141,7 +141,7 @@ class SvgPictureIcon extends StatelessWidget {
   ///
   /// The icon can be null, in which case the widget will render as an empty
   /// space of the specified [size].
-  final PictureProvider<dynamic>? image;
+  final PictureProvider<dynamic, dynamic>? image;
 
   final bool ignoreIconColor;
 
@@ -205,7 +205,11 @@ class SvgPictureIcon extends StatelessWidget {
         image!,
         width: iconSize,
         height: iconSize,
-        currentColor: effectiveIconColor,
+        theme: effectiveIconColor != null
+            ? SvgTheme(
+                currentColor: effectiveIconColor,
+              )
+            : null,
         fit: BoxFit.scaleDown,
         excludeFromSemantics: true,
       ),
@@ -215,7 +219,7 @@ class SvgPictureIcon extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<PictureProvider<dynamic>?>(
+    properties.add(DiagnosticsProperty<PictureProvider?>(
       'picture provider',
       image,
       ifNull: '<empty>',
