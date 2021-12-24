@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Make currentSettings a getter instead of a variable.
+
 ## 0.2.0
 
 * Add SplashAnimatingNotifier to notify animation progress on splash screen.

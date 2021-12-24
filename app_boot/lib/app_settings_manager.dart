@@ -30,4 +30,4 @@ final settingsManager = _AppSettingsManager();
 
 /// The current application flavor settings.
 /// [_AppSettingsManager.isOf] is also an alternative to this if you want to check the current settings.
-final currentSettings = settingsManager.settings;
+AppSettings<Object, DependencyObject> get currentSettings => settingsManager.settings;
