@@ -43,12 +43,12 @@ class NavigationPath {
 
 /// A navigation path that is used to navigate to a named route.
 class NamedPath extends NavigationPath {
-  NamedPath(
-    String pathName,
-    PathWidgetBuilder builder,
+  NamedPath({
+    required String pathName,
+    required PathWidgetBuilder builder,
     RouteSettingsBuilder? routeSettings,
     RouteBuilder? routeBuilder,
-  ) : super(
+  }) : super(
           matcher: (settings) => settings?.name == pathName,
           builder: builder,
           routeSettings: routeSettings,
@@ -56,12 +56,12 @@ class NamedPath extends NavigationPath {
         );
 }
 
-/// Works only if settings is of type [ScreenTypeRouteSettings].
+/// Works only if argument is of type [ScreenBuilder].
 class TypeNavigationPath<T extends Widget> extends NavigationPath {
-  TypeNavigationPath(
+  TypeNavigationPath({
     RouteSettingsBuilder? routeSettings,
     RouteBuilder? routeBuilder,
-  ) : super(
+  }) : super(
           matcher: (settings) => settings?.arguments is ScreenBuilder<T>,
           builder: _pathWidgetBuilder,
           routeSettings: routeSettings,

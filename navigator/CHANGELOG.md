@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Change parameter type to optional in NamedPath & TypeNavigationPath.
+
 ## 0.2.1+1
 
 * Add missing exports
