@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_boot/data/settings.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../app_settings_manager.dart';
@@ -12,7 +11,7 @@ typedef DependencyObjectProviderCallback<T extends DependencyObject> = T
 );
 
 // ignore: use_key_in_widget_constructors
-abstract class AnimatingSplash extends Widget {
+mixin AnimatingSplash {
   /// This completer indicates when the splash screen is done animating.
   Completer<bool> get animationCompleter;
 }
@@ -88,8 +87,11 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
   Future<void> onSplashScreenAnimating() async {
     final splash = widget.child;
-    if (splash is AnimatingSplash && !splash.animationCompleter.isCompleted) {
-      await splash.animationCompleter.future;
+    if (splash is AnimatingSplash) {
+      final animationCompleter = (splash as AnimatingSplash).animationCompleter;
+      if (!animationCompleter.isCompleted) {
+        await animationCompleter.future;
+      }
     }
   }
 
