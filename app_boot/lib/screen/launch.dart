@@ -10,10 +10,49 @@ typedef DependencyObjectProviderCallback<T extends DependencyObject> = T
   BuildContext context,
 );
 
-// ignore: use_key_in_widget_constructors
-mixin AnimatingSplash {
-  /// This completer indicates when the splash screen is done animating.
-  Completer<bool> get animationCompleter;
+enum AnimatingState {
+  idle,
+  animating,
+}
+
+class SplashAnimatingNotifier extends ValueNotifier<AnimatingState> {
+  SplashAnimatingNotifier() : super(AnimatingState.idle);
+
+  void onStarted() {
+    _completer = Completer<bool>();
+    value = AnimatingState.animating;
+  }
+
+  void onCompleted() {
+    if (_completer == null) return;
+    _completer!.complete(true);
+    _completer = null;
+    value = AnimatingState.idle;
+  }
+
+  void onCancelled() {
+    if (_completer == null) return;
+    _completer!.complete(false);
+    _completer = null;
+    value = AnimatingState.idle;
+  }
+
+  bool get isAnimating => value == AnimatingState.animating;
+  Completer<bool>? _completer;
+
+  Future<bool> waitForChange() {
+    if (_completer == null) {
+      return Future.value(true);
+    }
+    return _completer!.future;
+  }
+
+  @override
+  void dispose() {
+    _completer?.complete(false);
+    _completer = null;
+    super.dispose();
+  }
 }
 
 /// A launch or splash screen that is shown while app is loading.
@@ -34,6 +73,8 @@ class LaunchScreen<T extends DependencyObject> extends StatefulWidget {
   /// A constant widget instance might lead to better splash performance.
   final Widget child;
 
+  final SplashAnimatingNotifier? animatingNotifier;
+
   final void Function(Object error, StackTrace stackTrace)? onError;
 
   const LaunchScreen({
@@ -43,6 +84,7 @@ class LaunchScreen<T extends DependencyObject> extends StatefulWidget {
     required this.dependencyObjectProvider,
     required this.child,
     this.onError,
+    this.animatingNotifier,
   }) : super(key: key);
 
   @override
@@ -59,17 +101,22 @@ class _LaunchScreenState extends State<LaunchScreen> {
   static final Completer<void> _completer = Completer<void>();
 
   Future<void> onInitialized() async {
+    bool _canNavigate = true;
     await Future.wait(
       [
         onDependencyResolve(),
-        onSplashScreenAnimating(),
+        onSplashScreenAnimating().then((value) {
+          _canNavigate = value;
+        }),
       ],
     );
 
-    Navigator.pushReplacementNamed(
-      context,
-      widget.routePath ?? widget.reRoutePath,
-    );
+    if (_canNavigate) {
+      Navigator.pushReplacementNamed(
+        context,
+        widget.routePath ?? widget.reRoutePath,
+      );
+    }
   }
 
   Future<void> onDependencyResolve() async {
@@ -85,14 +132,11 @@ class _LaunchScreenState extends State<LaunchScreen> {
     }
   }
 
-  Future<void> onSplashScreenAnimating() async {
-    final splash = widget.child;
-    if (splash is AnimatingSplash) {
-      final animationCompleter = (splash as AnimatingSplash).animationCompleter;
-      if (!animationCompleter.isCompleted) {
-        await animationCompleter.future;
-      }
+  Future<bool> onSplashScreenAnimating() {
+    if (widget.animatingNotifier?.isAnimating == true) {
+      return widget.animatingNotifier!.waitForChange();
     }
+    return Future.value(true);
   }
 
   @override
