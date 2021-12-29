@@ -1,6 +1,6 @@
 name: magnific_core
 description: Common set of core utilities that a flutter app might need for bootstrap, validation, string utility, system orientation/fullscreen mode changes, etc.
-version: 0.1.2
+version: 0.1.3
 homepage: https://magnificsoftware.com
 
 environment:

@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Add keep null, empty and blank parameters for encodeQueryParameters
+
 ## 0.1.2
 
 * Replace debugging code with `logging_manager_flutter` package.
