@@ -44,7 +44,7 @@ class NavigationPath {
 /// A navigation path that is used to navigate to a named route.
 class NamedPath extends NavigationPath {
   NamedPath({
-    required String pathName,
+    required this.pathName,
     required PathWidgetBuilder builder,
     RouteSettingsBuilder? routeSettings,
     RouteBuilder? routeBuilder,
@@ -54,6 +54,8 @@ class NamedPath extends NavigationPath {
           routeSettings: routeSettings,
           routeBuilder: routeBuilder,
         );
+
+  final String pathName;
 }
 
 /// Works only if argument is of type [ScreenBuilder].

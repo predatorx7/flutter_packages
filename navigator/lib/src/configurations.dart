@@ -8,6 +8,14 @@ import 'page_route.dart';
 import 'path.dart';
 
 class RouterConfiguration with LinkRouter {
+  RouterConfiguration(
+    this.paths, {
+    GlobalKey<NavigatorState>? navigatorKey,
+    List<NamedPath>? namedPaths,
+    this.linkNavigator,
+  })  : navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
+        namedPaths = _createNamedPaths(namedPaths);
+
   /// List of [NavigationPath] for route matching. When a named route is pushed with
   /// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher]
   /// in the list below. As soon as there is a match, the associated builder
@@ -15,7 +23,14 @@ class RouterConfiguration with LinkRouter {
   /// take priority.
   final List<NavigationPath> paths;
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  /// List of [NamedPath] for route matching converted to a map of [String] to [NamedPath]. When a named route is pushed with
+  /// [Navigator.pushNamed], the route name from settings is used to match with [NamedPath.pathName] from this map to
+  /// retrieve builder.
+  ///
+  /// If builder is not null, then it will be used to create a route.
+  final Map<String, NamedPath> namedPaths;
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @protected
   @override
@@ -25,10 +40,15 @@ class RouterConfiguration with LinkRouter {
   @protected
   final LinkNavigatorInterface? linkNavigator;
 
-  RouterConfiguration(
-    this.paths, {
-    this.linkNavigator,
-  });
+  static Map<String, NamedPath> _createNamedPaths(List<NamedPath>? namedPaths) {
+    final _paths = <String, NamedPath>{};
+    if (namedPaths != null) {
+      for (final path in namedPaths) {
+        _paths[path.pathName] = path;
+      }
+    }
+    return Map.unmodifiable(_paths);
+  }
 
   Route<dynamic>? _lastGeneratedRoute;
 
@@ -44,43 +64,58 @@ class RouterConfiguration with LinkRouter {
       'route: ${settings.name}, args: ${settings.arguments.runtimeType}(${settings.arguments})',
     );
 
+    final _namedNavigationPath = namedPaths[settings.name];
+
+    if (_namedNavigationPath != null) {
+      final _route = _createRoute(_namedNavigationPath, settings);
+      _lastGeneratedRoute = _route;
+      return _route;
+    }
+
     for (final path in paths) {
       final hasMatch = path.matcher(settings);
 
       if (hasMatch) {
-        Widget _builder(BuildContext context) {
-          return path.builder(context, settings);
-        }
-
-        final _routeSettings = path.routeSettings?.call(settings) ?? settings;
-
-        if (path.routeBuilder != null) {
-          _lastGeneratedRoute = path.routeBuilder!(
-            builder: _builder,
-            settings: _routeSettings,
-          );
-
-          if (_lastGeneratedRoute != null) return _lastGeneratedRoute;
-        }
-
-        if (kIsWeb) {
-          _lastGeneratedRoute = NoAnimationMaterialPageRoute<void>(
-            builder: _builder,
-            settings: _routeSettings,
-          );
-        } else {
-          _lastGeneratedRoute = MaterialPageRoute<void>(
-            builder: _builder,
-            settings: _routeSettings,
-          );
-        }
-
-        return _lastGeneratedRoute;
+        return _createRoute(path, settings);
       }
     }
 
     // If no match was found, we let [WidgetsApp.onUnknownRoute] handle it.
     return null;
+  }
+
+  Route<dynamic>? _createRoute<T extends NavigationPath>(
+    T path,
+    RouteSettings settings,
+  ) {
+    Widget _builder(BuildContext context) {
+      return path.builder(context, settings);
+    }
+
+    final _routeSettings = path.routeSettings?.call(settings) ?? settings;
+
+    if (path.routeBuilder != null) {
+      _lastGeneratedRoute = path.routeBuilder!(
+        _builder,
+        _routeSettings,
+      );
+
+      if (_lastGeneratedRoute != null) return _lastGeneratedRoute;
+    }
+
+    if (kIsWeb) {
+      _lastGeneratedRoute = NoAnimationMaterialPageRoute<void>(
+        builder: _builder,
+        settings: _routeSettings,
+      );
+    } else {
+      _lastGeneratedRoute = MaterialPageRoute<void>(
+        builder: _builder,
+        settings: _routeSettings,
+      );
+    }
+
+    return _lastGeneratedRoute;
   }
 
   Route<dynamic>? onUnknownRoute(RouteSettings settings) {

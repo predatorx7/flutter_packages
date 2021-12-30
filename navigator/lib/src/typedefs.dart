@@ -7,10 +7,10 @@ typedef PathWidgetBuilder = Widget Function(
   RouteSettings settings,
 );
 
-typedef RouteBuilder = Route<dynamic>? Function({
-  required WidgetBuilder builder,
+typedef RouteBuilder = Route<dynamic>? Function(
+  WidgetBuilder builder,
   RouteSettings settings,
-});
+);
 
 typedef RouteSettingsBuilder = RouteSettings? Function(
   RouteSettings settings,

@@ -1,3 +1,8 @@
+## 0.2.3
+
+* Add `List<NamedPath>` namedPaths in RouterConfiguration. 
+* Add navigatorKey in RouterConfiguration's constructor.
+
 ## 0.2.2
 
 * Change parameter type to optional in NamedPath & TypeNavigationPath.

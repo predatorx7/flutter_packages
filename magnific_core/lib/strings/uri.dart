@@ -1,7 +1,7 @@
 import 'package:magnific_core/magnific_core.dart';
 
 /// Returns a string encoded map of html query parameters.
-String? encodeQueryParameters(
+String encodeQueryParameters(
   Map<String, String?> params, {
   bool keepNull = false,
   bool keepEmpty = true,
