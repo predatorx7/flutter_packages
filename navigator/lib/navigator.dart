@@ -7,3 +7,4 @@ export 'src/logger.dart';
 export 'src/page_route.dart';
 export 'src/path.dart';
 export 'src/typedefs.dart';
+export 'src/utils.dart';

@@ -1,6 +1,8 @@
 import 'dart:developer' as devel;
 
-class _NavigatorLogger {
+class NavigatorLogger {
+  NavigatorLogger();
+
   static const String _tag = '[navigator]';
 
   bool enableLogging = false;
@@ -18,5 +20,3 @@ class _NavigatorLogger {
     );
   }
 }
-
-final logger = _NavigatorLogger();

@@ -1,3 +1,8 @@
+## 1.0.0
+
+* Add useful documentation
+* Add logger in RouterConfiguration
+
 ## 0.2.3
 
 * Add `List<NamedPath>` namedPaths in RouterConfiguration. 

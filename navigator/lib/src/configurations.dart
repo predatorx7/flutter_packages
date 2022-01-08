@@ -7,28 +7,47 @@ import 'package:navigator/src/logger.dart';
 import 'page_route.dart';
 import 'path.dart';
 
+/// A configuration of router that can be use for easy & powerful navigations.
+///
+/// To use this for navigation, add instance of this to your `MaterialApp`
+///
+/// ```dart
+/// child: MaterialApp(
+///     // ...
+///     navigatorKey: navigationProvider.navigatorKey,
+///     onGenerateRoute: navigationProvider.onGenerateRoute,
+///     onUnknownRoute: navigationProvider.onUnknownRoute,
+///     // ...
+/// ),
+/// ```
 class RouterConfiguration with LinkRouter {
-  RouterConfiguration(
-    this.paths, {
+  /// Creates a route configuration with paths for navigation.
+  RouterConfiguration({
+    required this.paths,
     GlobalKey<NavigatorState>? navigatorKey,
     List<NamedPath>? namedPaths,
     this.linkNavigator,
-  })  : navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
-        namedPaths = _createNamedPaths(namedPaths);
+    NavigatorLogger? logger,
+  })  : logger = logger ?? NavigatorLogger(),
+        navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
+        namedPathsMap = _createNamedPaths(namedPaths);
+
+  /// A logger for logging navigation requests and issues.
+  final NavigatorLogger logger;
 
   /// List of [NavigationPath] for route matching. When a named route is pushed with
   /// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher]
   /// in the list below. As soon as there is a match, the associated builder
   /// will be returned. This means that the paths higher up in the list will
   /// take priority.
-  final List<NavigationPath> paths;
+  List<NavigationPath> paths;
 
   /// List of [NamedPath] for route matching converted to a map of [String] to [NamedPath]. When a named route is pushed with
   /// [Navigator.pushNamed], the route name from settings is used to match with [NamedPath.pathName] from this map to
   /// retrieve builder.
   ///
   /// If builder is not null, then it will be used to create a route.
-  final Map<String, NamedPath> namedPaths;
+  final Map<String, NamedPath> namedPathsMap;
 
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -38,6 +57,11 @@ class RouterConfiguration with LinkRouter {
 
   @override
   @protected
+
+  /// This is responsible for responding to navigation requests made from
+  /// [RouterConfiguration.navigateFromUri].
+  ///
+  /// You can create your custom implementations for this or use [LinkNavigator].
   final LinkNavigatorInterface? linkNavigator;
 
   static Map<String, NamedPath> _createNamedPaths(List<NamedPath>? namedPaths) {
@@ -53,6 +77,8 @@ class RouterConfiguration with LinkRouter {
   Route<dynamic>? _lastGeneratedRoute;
 
   @override
+
+  /// Last route that was created from this [RouterConfiguration.onGenerateRoute].
   Route<dynamic>? get lastGeneratedRoute => _lastGeneratedRoute;
 
   /// The route generator callback used when the app is navigated to a named
@@ -64,7 +90,7 @@ class RouterConfiguration with LinkRouter {
       'route: ${settings.name}, args: ${settings.arguments.runtimeType}(${settings.arguments})',
     );
 
-    final _namedNavigationPath = namedPaths[settings.name];
+    final _namedNavigationPath = namedPathsMap[settings.name];
 
     if (_namedNavigationPath != null) {
       final _route = _createRoute(_namedNavigationPath, settings);

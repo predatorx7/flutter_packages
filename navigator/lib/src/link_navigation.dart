@@ -1,18 +1,27 @@
 import 'package:flutter/widgets.dart';
-
+import 'configurations.dart' show RouterConfiguration;
 import 'error.dart';
 
-typedef NavigateOnLinkCallback = Future<void> Function(
-  Uri link,
-  LinkRouterData data,
-);
-
+/// This is responsible for responding to navigation requests made from
+/// [LinkRouter.navigateFromUri] or [RouterConfiguration.navigateFromUri].
+///
+/// Implemented by [LinkNavigator].
 mixin LinkNavigatorInterface {
+  /// This is called for executing a navigation when some component calls
+  /// [LinkRouter.navigateFromUri] or [RouterConfiguration.navigateFromUri].
+  ///
+  /// The [data]'s [LinkRouterData.navigatorState] should be used for executing
+  /// navigations as a response of navigation request for [link].
   Future<void> navigate(
     Uri link,
     LinkRouterData data,
   );
 }
+
+typedef NavigateOnLinkCallback = Future<void> Function(
+  Uri link,
+  LinkRouterData data,
+);
 
 class LinkNavigator with LinkNavigatorInterface {
   const LinkNavigator(this.onNavigationRequest);
@@ -30,6 +39,7 @@ class LinkNavigator with LinkNavigatorInterface {
 
 @immutable
 class LinkRouterData {
+  /// Last route that was created from [RouterConfiguration.onGenerateRoute].
   final Route<dynamic>? lastGeneratedRoute;
   final NavigatorState navigatorState;
 
@@ -39,6 +49,10 @@ class LinkRouterData {
   });
 }
 
+/// External components can use instance of [LinkRouter]
+/// to create navigation callbacks from urls as [Uri]s or [String]s.
+///
+/// [RouterConfiguration] implements [LinkRouter].
 mixin LinkRouter {
   @protected
   LinkNavigatorInterface? get linkNavigator;
