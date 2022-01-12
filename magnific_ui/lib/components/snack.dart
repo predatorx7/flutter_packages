@@ -31,6 +31,16 @@ class AppSnackbar {
     );
   }
 
+  void info(String text) {
+    _state.clearSnackBars();
+    _state.showSnackBar(
+      SnackBar(
+        behavior: behavior ?? AppSnackbar.defaultBehavior,
+        content: Text(text),
+      ),
+    );
+  }
+
   void error(String text) {
     _state.clearSnackBars();
     _state.showSnackBar(

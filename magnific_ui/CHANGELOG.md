@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Add info method in AppSnackbar
+
 ## 0.2.1
 
 * Update flutter_svg
