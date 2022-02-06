@@ -1,3 +1,9 @@
+## 1.1.0
+
+* Add copyWith method in NavigationnPath
+* Add routeBuilder in RouterConfiguration
+* Add NavigatableScreenFactory to easily create NavigationPath
+
 ## 1.0.0
 
 * Add useful documentation

@@ -5,6 +5,23 @@ import 'typedefs.dart';
 
 /// An immutable object that represents a path for navigation. When a named route is pushed with
 /// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher].
+abstract class NavigationPathInterface {
+  /// When a named route is pushed with [Navigator.pushNamed],
+  /// the route name is matched using this matcher.
+  RouteMatcherCallback get matcher;
+
+  /// Builds the primary contents of the route.
+  PathWidgetBuilder get builder;
+
+  /// An builter to optional create/modify data that might be useful in constructing a [Route].
+  RouteSettingsBuilder? get routeSettings;
+
+  /// Builder to optionally create a [Route] to be navigated. Useful when builder is not enough and you need to create a [Route] with custom transitions.
+  RouteBuilder? get routeBuilder;
+}
+
+/// An immutable object that represents a path for navigation. When a named route is pushed with
+/// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher].
 ///
 /// If there is a match with this, then this [builder] will be returned for construction of primary widgets of a route.
 ///
@@ -19,18 +36,22 @@ import 'typedefs.dart';
 /// ),
 /// ```
 @immutable
-class NavigationPath {
+class NavigationPath implements NavigationPathInterface {
   /// When a named route is pushed with [Navigator.pushNamed],
   /// the route name is matched using this matcher.
+  @override
   final RouteMatcherCallback matcher;
 
   /// Builds the primary contents of the route.
+  @override
   final PathWidgetBuilder builder;
 
   /// An builter to optional create/modify data that might be useful in constructing a [Route].
+  @override
   final RouteSettingsBuilder? routeSettings;
 
   /// Builder to optionally create a [Route] to be navigated. Useful when builder is not enough and you need to create a [Route] with custom transitions.
+  @override
   final RouteBuilder? routeBuilder;
 
   const NavigationPath({

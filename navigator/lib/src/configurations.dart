@@ -46,7 +46,7 @@ class RouterConfiguration with LinkRouter {
   /// in the list below. As soon as there is a match, the associated builder
   /// will be returned. This means that the paths higher up in the list will
   /// take priority.
-  List<NavigationPath> paths;
+  List<NavigationPathInterface> paths;
 
   /// List of [NamedPath] for route matching converted to a map of [String] to [NamedPath]. When a named route is pushed with
   /// [Navigator.pushNamed], the route name from settings is used to match with [NamedPath.pathName] from this map to
@@ -55,6 +55,9 @@ class RouterConfiguration with LinkRouter {
   /// If builder is not null, then it will be used to create a route.
   final Map<String, NamedPath> namedPathsMap;
 
+  /// A key to use when building the [Navigator]. Usually a reference to [MaterialApp.navigatorKey].
+  ///
+  /// Used by this to directly manipulate the [Navigator] without first obtaining [NavigatorState] from a [BuildContext] via [Navigator.of].
   final GlobalKey<NavigatorState> navigatorKey;
 
   @protected
@@ -116,7 +119,7 @@ class RouterConfiguration with LinkRouter {
     return null;
   }
 
-  Route<dynamic>? _createRoute<T extends NavigationPath>(
+  Route<dynamic>? _createRoute<T extends NavigationPathInterface>(
     T path,
     RouteSettings settings,
   ) {
