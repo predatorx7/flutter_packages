@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Path;
 import 'package:navigator/src/link_navigation.dart';
 
 import 'package:navigator/src/logger.dart';
+import 'package:navigator/src/typedefs.dart';
 
 import 'page_route.dart';
 import 'path.dart';
@@ -28,12 +29,15 @@ class RouterConfiguration with LinkRouter {
     List<NamedPath>? namedPaths,
     this.linkNavigator,
     NavigatorLogger? logger,
+    this.routeBuilder,
   })  : logger = logger ?? NavigatorLogger(),
         navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
         namedPathsMap = _createNamedPaths(namedPaths);
 
   /// A logger for logging navigation requests and issues.
   final NavigatorLogger logger;
+
+  final RouteBuilder? routeBuilder;
 
   /// List of [NavigationPath] for route matching. When a named route is pushed with
   /// [Navigator.pushNamed], the route name is matched with the [NavigationPath.matcher]
@@ -120,12 +124,15 @@ class RouterConfiguration with LinkRouter {
 
     final _routeSettings = path.routeSettings?.call(settings) ?? settings;
 
-    if (path.routeBuilder != null) {
-      _lastGeneratedRoute = path.routeBuilder!(
+    final _routeBuilder = path.routeBuilder ?? routeBuilder;
+    if (_routeBuilder != null) {
+      _lastGeneratedRoute = _routeBuilder(
         _builder,
         _routeSettings,
       );
 
+      // TODO: If route builder returns null, then it means that for some reason, this builder does not want to build routes,
+      // so we must reject this navigation somehow.
       if (_lastGeneratedRoute != null) return _lastGeneratedRoute;
     }
 

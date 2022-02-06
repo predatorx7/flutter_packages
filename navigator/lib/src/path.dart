@@ -39,6 +39,20 @@ class NavigationPath {
     this.routeSettings,
     this.routeBuilder,
   });
+
+  NavigationPath copyWith({
+    RouteMatcherCallback? matcher,
+    PathWidgetBuilder? builder,
+    RouteSettingsBuilder? routeSettings,
+    RouteBuilder? routeBuilder,
+  }) {
+    return NavigationPath(
+      matcher: matcher ?? this.matcher,
+      builder: builder ?? this.builder,
+      routeSettings: routeSettings ?? this.routeSettings,
+      routeBuilder: routeBuilder ?? this.routeBuilder,
+    );
+  }
 }
 
 /// A navigation path that is used to navigate to a named route.
@@ -56,6 +70,26 @@ class NamedPath extends NavigationPath {
         );
 
   final String pathName;
+
+  @override
+  NavigationPath copyWith({
+    String? pathName,
+    RouteMatcherCallback? matcher,
+    PathWidgetBuilder? builder,
+    RouteSettingsBuilder? routeSettings,
+    RouteBuilder? routeBuilder,
+  }) {
+    final RouteMatcherCallback _matcher = matcher ??
+        (pathName != null ? (settings) => settings?.name == pathName : null) ??
+        this.matcher;
+
+    return super.copyWith(
+      matcher: _matcher,
+      builder: builder ?? this.builder,
+      routeSettings: routeSettings ?? this.routeSettings,
+      routeBuilder: routeBuilder ?? this.routeBuilder,
+    );
+  }
 }
 
 /// Works only if argument is of type [ScreenBuilder].
