@@ -37,6 +37,8 @@ class RouterConfiguration with LinkRouter {
   /// A logger for logging navigation requests and issues.
   final NavigatorLogger logger;
 
+  /// A common route builder for all routes. Used when [NavigationPath.routeBuilder] is null.
+  /// If this value is null, then fallbacks to [NoAnimationMaterialPageRoute] on web and [MaterialPageRoute] for others.
   final RouteBuilder? routeBuilder;
 
   /// List of [NavigationPath] for route matching. When a named route is pushed with
