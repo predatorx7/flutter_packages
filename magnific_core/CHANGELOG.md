@@ -1,3 +1,9 @@
+## 0.2.0
+
+* Add onEnd in BootstrapApp
+* Convert all static methods to instance methods in AppLocale
+* Remove device id getter
+
 ## 0.1.3
 
 * Add keep null, empty and blank parameters for encodeQueryParameters
