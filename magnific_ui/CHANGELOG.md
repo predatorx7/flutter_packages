@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Remove single async scope. Moved out as a separate package: https://pub.dev/packages/single_async_widget.
+
 ## 0.2.2
 
 * Add info method in AppSnackbar
