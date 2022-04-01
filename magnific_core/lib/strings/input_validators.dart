@@ -12,6 +12,7 @@ class StringValidate {
     if (value?.isNotEmpty != true) {
       return validationMessage;
     }
+    return null;
     // Todo: Please verify if all existing passwords are greater than 6 characters in length
     // else if (value!.length < 6) {
     //
@@ -28,18 +29,21 @@ class StringValidate {
     if (value != otherValue) {
       return validationMessage;
     }
+    return null;
   }
 
   static String? isEmpty(String? value, String validationMessage) {
     if (value?.isEmpty ?? true) {
       return validationMessage;
     }
+    return null;
   }
 
   static String? isBlank(String? value, String validationMessage) {
     if (StringX.isBlank(value)) {
       return validationMessage;
     }
+    return null;
   }
 
   static String? username(

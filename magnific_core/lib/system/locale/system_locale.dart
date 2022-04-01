@@ -3,9 +3,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 
 class AppLocale {
-  AppLocale._();
+  const AppLocale();
 
-  static List<Locale> deviceLocales() {
+  List<Locale> deviceLocales() {
     final _platformDispatcher = WidgetsBinding.instance?.platformDispatcher;
     if (_platformDispatcher != null) {
       return _platformDispatcher.locales;
@@ -13,7 +13,7 @@ class AppLocale {
     return ui.window.locales;
   }
 
-  static Locale deviceLocale() {
+  Locale deviceLocale() {
     final _platformDispatcher = WidgetsBinding.instance?.platformDispatcher;
     if (_platformDispatcher != null) {
       return _platformDispatcher.locale;

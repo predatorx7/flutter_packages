@@ -1,4 +1,3 @@
-import 'data/future_snapshot.dart';
 import 'typedefs.dart';
 import 'when_async_base.dart';
 

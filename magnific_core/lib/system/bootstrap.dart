@@ -20,6 +20,7 @@ class BootstrapApp {
     this.onStart,
     required this.loggingManager,
     required this.onStarted,
+    this.onEnd,
   });
 
   /// Called after `WidgetsFlutterBinding.ensureInitialized` and before initialization of logger.
@@ -28,6 +29,7 @@ class BootstrapApp {
 
   /// Called immediately after initialization of logger.
   final Iterable<Future> Function()? onStarted;
+  final Future<void> Function()? onEnd;
 
   Future<void> start(void Function() app) async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -52,5 +54,9 @@ class BootstrapApp {
         stackTrace,
       ),
     );
+
+    if (onEnd != null) {
+      await onEnd!();
+    }
   }
 }
