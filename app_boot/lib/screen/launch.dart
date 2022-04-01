@@ -60,14 +60,14 @@ class SplashAnimatingNotifier extends ValueNotifier<AnimatingState> {
 /// It is recommended to create your own LaunchScreen Widget that uses [LaunchScreen].
 ///
 /// Use [AnimatingSplash] as [child] to inform the app that the splash UI is done animating.
-class LaunchScreen<T extends DependencyObject> extends StatefulWidget {
+class LaunchScreen extends StatefulWidget {
   static const String routeName = '/';
 
   final String? routePath;
 
   /// The navigator will navigate to this path if [routePath] is null
   final String reRoutePath;
-  final DependencyObjectProviderCallback<T> dependencyObjectProvider;
+  final DependencyObjectProviderCallback<DependencyObject> dependencyObjectProvider;
 
   /// A widget that is shown while [LaunchScreen] is loading. This represents splash screen's UI. This could be animating [AnimatingSplash].
   /// A constant widget instance might lead to better splash performance.
@@ -75,7 +75,15 @@ class LaunchScreen<T extends DependencyObject> extends StatefulWidget {
 
   final SplashAnimatingNotifier? animatingNotifier;
 
-  final void Function(Object error, StackTrace stackTrace)? onError;
+  final void Function(
+    Object error,
+    StackTrace stackTrace,
+  )? onError;
+
+  final Future<void> Function(
+    BuildContext context,
+    String routeName,
+  ) onNavigate;
 
   const LaunchScreen({
     Key? key,
@@ -83,9 +91,20 @@ class LaunchScreen<T extends DependencyObject> extends StatefulWidget {
     required this.reRoutePath,
     required this.dependencyObjectProvider,
     required this.child,
+    this.onNavigate = _onNavigateDefault,
     this.onError,
     this.animatingNotifier,
   }) : super(key: key);
+
+  static Future<void> _onNavigateDefault(
+    BuildContext context,
+    String routeName,
+  ) {
+    return Navigator.pushReplacementNamed(
+      context,
+      routeName,
+    );
+  }
 
   @override
   _LaunchScreenState createState() => _LaunchScreenState();
@@ -112,7 +131,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
     );
 
     if (_canNavigate) {
-      Navigator.pushReplacementNamed(
+      widget.onNavigate(
         context,
         widget.routePath ?? widget.reRoutePath,
       );

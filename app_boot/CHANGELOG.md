@@ -1,3 +1,9 @@
+## 0.2.2
+
+* Remove generic Type T from LaunchScreen
+* Add onNavigate parameter in LaunchScreen
+* Make AppSettingsManager public
+
 ## 0.2.1
 
 * Make currentSettings a getter instead of a variable.

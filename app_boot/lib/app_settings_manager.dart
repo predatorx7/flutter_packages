@@ -1,7 +1,7 @@
 import 'data/settings.dart';
 
 /// Please use value of [appSettings] instead of creating an instance.
-class _AppSettingsManager {
+class AppSettingsManager {
   AppSettings? _selectedSettings;
 
   AppSettings get settings => _selectedSettings!;
@@ -26,7 +26,7 @@ class _AppSettingsManager {
 /// Manages the current application flavor settings. Can be used to set, get and identify the current settings.
 ///
 /// Use `settingsManager.settings = YourAppBuildFlavorSettings()` setter to specify the settings.
-final settingsManager = _AppSettingsManager();
+final settingsManager = AppSettingsManager();
 
 /// The current application flavor settings.
 /// [_AppSettingsManager.isOf] is also an alternative to this if you want to check the current settings.
