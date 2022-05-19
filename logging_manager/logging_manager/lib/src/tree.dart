@@ -1,9 +1,17 @@
+// Copyright 2014 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:async';
+
 import 'package:ansicolor/ansicolor.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import 'manager.dart';
-import 'line_info.dart';
+import 'stack_filter.dart';
+
+const bool _kIsWeb = identical(0, 0.0);
 
 /// An object that recieves logs from [Logger] and performs an action
 /// using them, example: Printing, Printing colored logs, Sending logs to analytics, etc.
@@ -18,97 +26,128 @@ import 'line_info.dart';
 mixin LoggingTree {
   final int stackIndex = 4;
 
-  bool _isPlanted = false;
+  bool get isPlanted => _logsStreamSubscription != null;
 
-  bool get isPlanted => _isPlanted;
+  StreamSubscription<LogRecord>? _logsStreamSubscription;
 
   @mustCallSuper
 
   /// Attach this logging mechanism to a Manager.
-  void onPlant() {
-    _isPlanted = true;
+  void onPlant(StreamSubscription<LogRecord>? subscription) {
+    _logsStreamSubscription = subscription;
   }
 
   /// Listener to records of log streams.
   void onRecord(LogRecord record) {
     if (!isPlanted) return;
-    final info = LogLineInfo.get(
-      stackIndex: stackIndex,
-      record: record,
-    );
-    log(record, info);
+    log(record);
   }
 
   /// Act on the log [record] with [info].
+  @protected
   void log(
     LogRecord record,
-    LogLineInfo info,
   );
 
   @mustCallSuper
 
   /// De-attach this logging mechanism from a Manager.
   void onRemove() {
-    _isPlanted = false;
+    _logsStreamSubscription?.cancel();
+    _logsStreamSubscription = null;
   }
 }
 
-class FormattedStackTrace {
+class FormattedStacktrace {
   final StackTrace stackTrace;
+  final String? formattedStackTrace;
 
-  FormattedStackTrace(this.stackTrace);
-
-  String toText() {
-    final tmpStacktrace = stackTrace.toString().split('\n');
-    final stackTraceMessage = tmpStacktrace.map(
-      (stackLine) {
-        return "\t$stackLine";
-      },
-    ).join("\n");
-    return stackTraceMessage;
-  }
-
-  @override
-  String toString() => toText();
+  const FormattedStacktrace(this.stackTrace, this.formattedStackTrace);
 }
 
 /// An abstract class that provides a formatted output for logs.
 abstract class FormattedOutputLogsTree with LoggingTree {
-  @override
-  void log(
-    LogRecord record,
-    LogLineInfo info,
-  ) {
-    final _message = formatLog(record, info);
-    final _object = formatObject(record.object);
-    final _stacktrace = FormattedStackTrace(
-      LogLineInfo.getAssociatedStackTrace(record),
-    );
-    logger(_message, _object, _stacktrace, record, info);
+  /// Value of [level.value] >= this will allow print of stacktrace
+  int get stacktraceLoggingThreshold => 900;
+
+  bool willLogStackTrace(Level level) {
+    return level.value >= stacktraceLoggingThreshold;
   }
 
-  String formatLog(
+  @override
+  void log(LogRecord record) {
+    final _message = _formatMessage(record);
+    final _object = _formatObject(record.object);
+    final _errorLabel = record.error?.toString();
+    final _stacktrace = _formatStackTrace(record.stackTrace, record.level);
+
+    logger(_message, _object, _errorLabel, _stacktrace, record);
+  }
+
+  static String _formatMessage(
     LogRecord record,
-    LogLineInfo info,
   ) {
     final _timestamp = record.time.toIso8601String();
     final _level = record.level.name;
-    final _tag = LogLineInfo.getTag(record: record);
+    final _tag = record.loggerName;
     final _message = record.message;
-    return '$_timestamp\t$_level $_tag: $_message';
+    if (_tag.isEmpty) {
+      return '$_timestamp IS:$_level: $_message';
+    }
+    return '$_timestamp [$_tag]\n[$_level] $_message';
   }
 
-  String formatObject(Object? object) {
+  static String _formatObject(Object? object) {
     if (object == null) return '';
-    return '\n${object.toString()}';
+    return object.toString();
   }
 
+  FormattedStacktrace _formatStackTrace(
+    StackTrace? stacktrace,
+    Level level,
+  ) {
+    final formatStacktrace = willLogStackTrace(level);
+    final _resolvedStacktrace = formatStacktrace
+        ? (stacktrace ?? StackTrace.current)
+        : (stacktrace ?? StackTrace.empty);
+    return FormattedStacktrace(
+      _resolvedStacktrace,
+      formatStacktrace
+          ? _filterStacktrace(
+              stackTrace: _resolvedStacktrace,
+              maxFrames: 100,
+            )
+          : null,
+    );
+  }
+
+  static String _filterStacktrace({
+    required StackTrace stackTrace,
+    int? maxFrames,
+  }) {
+    final _stackTrace = stackTrace;
+    Iterable<String> lines = _stackTrace.toString().trimRight().split('\n');
+
+    if (_kIsWeb && lines.isNotEmpty) {
+      lines = lines.skipWhile((String line) {
+        return line.contains('StackTrace.current') ||
+            line.contains('dart-sdk/lib/_internal') ||
+            line.contains('dart:sdk_internal');
+      });
+    }
+
+    if (maxFrames != null) lines = lines.take(maxFrames);
+
+    return StackFilterContainer.defaultStackFilter(lines).join('\n');
+  }
+
+  @protected
   void logger(
     String messageText,
     String objectText,
-    FormattedStackTrace stacktrace,
+    String? errorLabel,
+    FormattedStacktrace stacktrace,
     LogRecord record,
-    LogLineInfo info,
   );
 }
 
@@ -119,39 +158,39 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   final int maxLineSize;
 
   /// Value of [level.value] >= this will allow print of stacktrace
-  final int stacktracePrintingThreshold;
+  @override
+  final int stacktraceLoggingThreshold;
 
   PrintingLogsTree({
     this.maxLineSize = 800,
-    this.stacktracePrintingThreshold = 900,
+    this.stacktraceLoggingThreshold = 900,
   });
+
+  static _getWithNewLineIfNotEmpty(String? value) {
+    if (value == null || value.isEmpty) return '';
+    return '\n$value';
+  }
 
   @override
   void logger(
     String messageText,
     String objectText,
-    FormattedStackTrace stacktrace,
+    String? errorLabel,
+    FormattedStacktrace stacktrace,
     LogRecord record,
-    LogLineInfo info,
   ) {
+    final stacktracePrint = stacktrace.formattedStackTrace;
+    final x = _getWithNewLineIfNotEmpty;
+    final _wholeMessage =
+        '$messageText${x(objectText)}${x(errorLabel)}${x(stacktracePrint)}';
+
     if (maxLineSize == -1) {
-      printWholeLog(
-        messageText,
-        objectText,
+      printSingleLog(
+        _wholeMessage,
         record.level,
-        record.error,
-        stacktrace,
       );
     } else {
       final pattern = RegExp('.{1,$maxLineSize}');
-      final _error = record.error;
-      final _errorText = _error == null ? '' : '\n${_error.toString()}';
-      final _stacktrace = getStacktraceAsTextForPrinting(
-        stacktrace,
-        record.level,
-      );
-
-      final _wholeMessage = '$messageText$objectText$_errorText$_stacktrace';
 
       final matches = pattern.allMatches(_wholeMessage);
 
@@ -163,33 +202,7 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     }
   }
 
-  void printWholeLog(
-    String messageText,
-    String objectText,
-    Level level,
-    dynamic errors,
-    FormattedStackTrace stackTrace,
-  ) {
-    final _error = errors == null ? '' : '\n${errors.toString()}';
-    final _stacktrace = getStacktraceAsTextForPrinting(
-      stackTrace,
-      level,
-    );
-    final _message = '$messageText$objectText$_error$_stacktrace';
-    printSingleLog(_message, level);
-  }
-
-  String getStacktraceAsTextForPrinting(
-    FormattedStackTrace stacktrace,
-    Level level,
-  ) {
-    if (level.value <= stacktracePrintingThreshold) {
-      return '';
-    }
-    final _stacktrace = stacktrace.toText();
-    return '\n$_stacktrace';
-  }
-
+  @protected
   void printSingleLog(
     String messageText,
     Level level,
@@ -231,7 +244,7 @@ class PrintingColoredLogsTree extends PrintingLogsTree {
     int stacktracePrintingThreshold = 900,
   }) : super(
           maxLineSize: maxLineSize,
-          stacktracePrintingThreshold: stacktracePrintingThreshold,
+          stacktraceLoggingThreshold: stacktracePrintingThreshold,
         );
 
   static final levelColors = {
