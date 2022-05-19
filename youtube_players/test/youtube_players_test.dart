@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:youtube_players/src/uri.dart';
-import 'package:youtube_players/src/utils.dart';
+import 'package:multiple_youtube_players/src/uri.dart';
+import 'package:multiple_youtube_players/src/utils.dart';
 
 void main() {
   test('YoutubeUtils', () {

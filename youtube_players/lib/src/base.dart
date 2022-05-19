@@ -7,9 +7,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_players/src/error_snackbar.dart';
-import 'package:youtube_players/src/player.dart';
-import 'package:youtube_players/src/uri.dart';
+import 'package:multiple_youtube_players/src/error_snackbar.dart';
+import 'package:multiple_youtube_players/src/player.dart';
+import 'package:multiple_youtube_players/src/uri.dart';
 
 class YoutubePlayer {
   final YoutubeUri uri;

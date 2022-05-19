@@ -1,4 +1,4 @@
-import 'package:youtube_players/src/utils.dart';
+import 'package:multiple_youtube_players/src/utils.dart';
 
 /// A representation of a youtube video URL for use in a youtube player.
 class YoutubeUri {
