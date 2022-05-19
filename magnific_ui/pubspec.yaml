@@ -1,8 +1,8 @@
 name: magnific_ui
 description: Extra flutter UI components that every app might be need
 version: 0.4.0
-homepage: https://magnificsoftware.com
-
+repository: https://github.com/predatorx7/flutter_packages.git
+ 
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
