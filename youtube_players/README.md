@@ -1,6 +1,6 @@
 # youtube_players
 
-A Flutter package which provides youtube players
+A Flutter package which provides various youtube players depending on your requirement
 
 ## Installation
 
