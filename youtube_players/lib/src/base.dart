@@ -12,7 +12,6 @@ import 'package:youtube_players/src/player.dart';
 import 'package:youtube_players/src/uri.dart';
 
 class YoutubePlayer {
-  final BuildContext _context;
   final YoutubeUri uri;
   final String _errorMessage;
   final bool _forceFullscreen;
@@ -23,13 +22,11 @@ class YoutubePlayer {
   /// Keep [forceFullscreen] true to force any supporting players to enable fullscreen.
   /// [errorMessage] will be shown in [SnackBar] to users if any errors happen.
   YoutubePlayer(
-    BuildContext context,
     this.uri, {
     String errorMessage = youtubePlayerErrorMessage,
     bool forceFullscreen = true,
     Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers,
-  })  : _context = context,
-        _errorMessage = errorMessage,
+  })  : _errorMessage = errorMessage,
         _forceFullscreen = forceFullscreen,
         _gestureRecognizers = gestureRecognizers;
 
@@ -39,13 +36,14 @@ class YoutubePlayer {
   /// Opens youtube player using Youtube's API for iframe in `webview_flutter`
   ///
   /// This approach has lower chances of failures.
-  Future<Object?> inWebview() {
+  Future<Object?> inWebview(BuildContext context) {
     if (!uri.isValid) {
-      onYoutubePlayerError(_context, _errorMessage);
+      final messengerState = ScaffoldMessenger.of(context);
+      onYoutubePlayerError(messengerState, _errorMessage);
       return Future.value(false);
     }
 
-    return Navigator.of(_context).push(
+    return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => YoutubePlayerScreen(
           youtubeVideoId: uri.videoId,
@@ -121,10 +119,11 @@ class YoutubePlayer {
   ///
   /// If [uri] launching fails and [enableFallback] is true then opens youtube iframe player in webview_flutter using [inWebview].
   /// On failures, a snackbar is shown with [errorMessage].
-  Future<Object?> inApp() async {
+  Future<Object?> inApp(BuildContext context) async {
+    final messengerState = ScaffoldMessenger.of(context);
     if (!uri.isValid) {
       onYoutubePlayerError(
-        _context,
+        messengerState,
         _errorMessage,
         'Youtube uri "$uri" is invalid',
       );
@@ -139,7 +138,7 @@ class YoutubePlayer {
       } else if (Platform.isIOS) {
         didOpen = await inIOS();
       } else {
-        await inWebview();
+        await inWebview(context);
       }
 
       if (didOpen) {
@@ -148,7 +147,7 @@ class YoutubePlayer {
     } catch (e, s) {
       if (!enableFallback && (Platform.isAndroid || Platform.isIOS)) {
         onYoutubePlayerError(
-          _context,
+          messengerState,
           _errorMessage,
           'Something went wrong',
           e,
@@ -160,10 +159,11 @@ class YoutubePlayer {
     }
 
     try {
-      return await inWebview();
+      // ignore: use_build_context_synchronously
+      return await inWebview(context);
     } catch (e, s) {
       onYoutubePlayerError(
-        _context,
+        messengerState,
         _errorMessage,
         'Something went wrong',
         e,

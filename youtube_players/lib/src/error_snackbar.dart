@@ -1,13 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
 const String youtubePlayerErrorMessage = 'Could not open youtube player';
 
-void onYoutubePlayerError(
-  BuildContext context, [
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> onYoutubePlayerError(
+  ScaffoldMessengerState scaffoldMessengerState, [
   String errorMessage = youtubePlayerErrorMessage,
   String logMessage = youtubePlayerErrorMessage,
   Object? error,
@@ -19,7 +18,7 @@ void onYoutubePlayerError(
     error: error,
     stackTrace: stackTrace,
   );
-  ScaffoldMessenger.of(context).showSnackBar(
+  return scaffoldMessengerState.showSnackBar(
     SnackBar(
       content: Text(errorMessage),
     ),

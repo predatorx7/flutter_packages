@@ -1,6 +1,6 @@
 name: youtube_players
 description: A new Flutter package project.
-version: 0.1.0
+version: 0.2.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,13 +12,9 @@ dependencies:
     sdk: flutter
   logging: ^1.0.1
   url_launcher: ^6.0.6
-  webview_flutter: ^2.0.8
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  rational_lint: ^1.0.0
-
-dependency_overrides:
-  rational_lint:
-    path: ../rational_lint
+  flutter_lints: ^2.0.1

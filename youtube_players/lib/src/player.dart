@@ -18,7 +18,7 @@ class YoutubePlayerScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YoutubePlayerScreenState createState() => _YoutubePlayerScreenState();
+  State<YoutubePlayerScreen> createState() => _YoutubePlayerScreenState();
 }
 
 class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
@@ -31,7 +31,9 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   }
 
   Future<void> enableFullscreen() async {
-    await SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersive,
+    );
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -39,7 +41,9 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   }
 
   Future<void> disableFullscreen() async {
-    await SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+    );
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
@@ -51,7 +55,7 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _playerWidget = WebView(
+    final playerWidget = WebView(
       initialUrl: '',
       onWebViewCreated: (controller) {
         _controller = controller;
@@ -75,7 +79,7 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
         decoration: const BoxDecoration(
           color: Colors.black,
         ),
-        child: _playerWidget,
+        child: playerWidget,
       );
     }
 
@@ -86,15 +90,15 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
         backgroundColor: Colors.transparent,
         leading: const BackButton(),
       ),
-      body: _playerWidget,
+      body: playerWidget,
     );
   }
 
   Future<void> _loadHtmlPlayer() async {
-    final _playableDataUri = Uri.dataFromString(player,
+    final playableDataUri = Uri.dataFromString(player,
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
         .toString();
-    await _controller?.loadUrl(_playableDataUri);
+    await _controller?.loadUrl(playableDataUri);
   }
 
   static String _boolean(bool value) => value ? '1' : '0';

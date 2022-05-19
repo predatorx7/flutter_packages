@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:single_async_widget/src/ref/value.dart';
 
+import '../ref/value.dart';
 import '../ref/base.dart';
 import '../typedefs.dart';
 
