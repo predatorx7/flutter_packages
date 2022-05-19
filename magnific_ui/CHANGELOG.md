@@ -1,3 +1,7 @@
+## 0.4.0
+
+* Add flex support inside the Mini progress indicator.
+
 ## 0.3.0
 
 * Remove single async scope. Moved out as a separate package: https://pub.dev/packages/single_async_widget.

@@ -1,6 +1,6 @@
 name: magnific_ui
 description: Extra flutter UI components that every app might be need
-version: 0.3.0
+version: 0.4.0
 homepage: https://magnificsoftware.com
 
 environment:
@@ -15,5 +15,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 flutter:
