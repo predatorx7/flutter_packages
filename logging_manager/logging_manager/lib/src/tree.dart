@@ -76,25 +76,25 @@ abstract class FormattedOutputLogsTree with LoggingTree {
 
   @override
   void log(LogRecord record) {
-    final _message = _formatMessage(record);
-    final _object = _formatObject(record.object);
-    final _errorLabel = record.error?.toString();
-    final _stacktrace = _formatStackTrace(record.stackTrace, record.level);
+    final message = _formatMessage(record);
+    final object = _formatObject(record.object);
+    final errorLabel = record.error?.toString();
+    final stacktrace = _formatStackTrace(record.stackTrace, record.level);
 
-    logger(_message, _object, _errorLabel, _stacktrace, record);
+    logger(message, object, errorLabel, stacktrace, record);
   }
 
   static String _formatMessage(
     LogRecord record,
   ) {
-    final _timestamp = record.time.toIso8601String();
-    final _level = record.level.name;
-    final _tag = record.loggerName;
-    final _message = record.message;
-    if (_tag.isEmpty) {
-      return '$_timestamp IS:$_level: $_message';
+    final timestamp = record.time.toIso8601String();
+    final level = record.level.name;
+    final tag = record.loggerName;
+    final message = record.message;
+    if (tag.isEmpty) {
+      return '$timestamp {$level} $message';
     }
-    return '$_timestamp [$_tag]\n[$_level] $_message';
+    return '$timestamp [$tag]\n{$level} $message';
   }
 
   static String _formatObject(Object? object) {
@@ -107,14 +107,14 @@ abstract class FormattedOutputLogsTree with LoggingTree {
     Level level,
   ) {
     final formatStacktrace = willLogStackTrace(level);
-    final _resolvedStacktrace = formatStacktrace
+    final resolvedStacktrace = formatStacktrace
         ? (stacktrace ?? StackTrace.current)
         : (stacktrace ?? StackTrace.empty);
     return FormattedStacktrace(
-      _resolvedStacktrace,
+      resolvedStacktrace,
       formatStacktrace
           ? _filterStacktrace(
-              stackTrace: _resolvedStacktrace,
+              stackTrace: resolvedStacktrace,
               maxFrames: 100,
             )
           : null,
@@ -125,8 +125,7 @@ abstract class FormattedOutputLogsTree with LoggingTree {
     required StackTrace stackTrace,
     int? maxFrames,
   }) {
-    final _stackTrace = stackTrace;
-    Iterable<String> lines = _stackTrace.toString().trimRight().split('\n');
+    Iterable<String> lines = stackTrace.toString().trimRight().split('\n');
 
     if (_kIsWeb && lines.isNotEmpty) {
       lines = lines.skipWhile((String line) {
@@ -181,23 +180,23 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   ) {
     final stacktracePrint = stacktrace.formattedStackTrace;
     final x = _getWithNewLineIfNotEmpty;
-    final _wholeMessage =
+    final wholeMessage =
         '$messageText${x(objectText)}${x(errorLabel)}${x(stacktracePrint)}';
 
     if (maxLineSize == -1) {
       printSingleLog(
-        _wholeMessage,
+        wholeMessage,
         record.level,
       );
     } else {
       final pattern = RegExp('.{1,$maxLineSize}');
 
-      final matches = pattern.allMatches(_wholeMessage);
+      final matches = pattern.allMatches(wholeMessage);
 
       for (final match in matches) {
-        final _group = match.group(0);
-        if (_group == null) continue;
-        printSingleLog(_group, record.level);
+        final group = match.group(0);
+        if (group == null) continue;
+        printSingleLog(group, record.level);
       }
     }
   }
@@ -265,8 +264,8 @@ class PrintingColoredLogsTree extends PrintingLogsTree {
     String messageText,
     Level level,
   ) {
-    final _pen = levelColors[level]!;
+    final pen = levelColors[level]!;
     // ignore: avoid_print
-    print(_pen(messageText));
+    print(pen(messageText));
   }
 }

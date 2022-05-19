@@ -1,26 +1,22 @@
 import 'package:logging_manager/logging_manager.dart';
+import 'package:logging_manager/src/default_logging_manager.dart';
 
 void main() {
-  final logginManager = LoggingManager(
-    logger: Logger('CustomLoggingManager'),
-    tree: PrintingColoredLogsTree(),
-  );
-
   // or just Logger('CustomLoggingManager');
-  final logger = logginManager.logger;
+  final logger = loggingManager.logger;
 
   testPrinting(logger, 'PrintingColoredLogsTree');
-  logginManager.removeTree();
+  loggingManager.removeTree();
   testPrinting(logger, 'NotPrintingLogs');
-  logginManager.plantTree(PrintingLogsTree());
+  loggingManager.plantTree(PrintingLogsTree());
   testPrinting(logger, 'PrintingLogsTree');
 
-  final childLogger = logginManager.getLogger('child_logger');
+  final childLogger = loggingManager.getLogger('child_logger');
 
   testPrinting(childLogger, 'PrintingColoredLogsTree');
-  logginManager.removeTree();
+  loggingManager.removeTree();
   testPrinting(childLogger, 'NotPrintingLogs');
-  logginManager.plantTree(PrintingLogsTree());
+  loggingManager.plantTree(PrintingLogsTree());
   testPrinting(childLogger, 'PrintingLogsTree');
 }
 

@@ -60,6 +60,8 @@ final logger = logginManager.root;
 logger.info('Hello World');
 ```
 
+You can get the default logging manager from loggingManager. It uses Logger with name 'DefaultLogger'.
+
 ## Additional information
 
 For more information about using the logger, check [pub.dev:logging](https://pub.dev/packages/logging).

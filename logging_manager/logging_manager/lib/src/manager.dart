@@ -33,11 +33,9 @@ class LoggingManager {
   /// is responsible for processing).
   LoggingManager({
     Logger? logger,
-    Level? level = Level.ALL,
     LoggingTree? tree,
   }) : logger = logger ?? Logger.root {
     hierarchicalLoggingEnabled = true;
-    this.logger.level = level ?? Level.INFO;
     if (tree != null) {
       plantTree(tree);
     }

@@ -55,6 +55,8 @@ class StackFilterContainer {
       'class _FrameCallbackEntry': 0,
       'class _Timer': 0,
       'class _RawReceivePortImpl': 0,
+      'package:logging_manager': 0,
+      'package:logging': 0,
     };
 
     int skipped = 0;
