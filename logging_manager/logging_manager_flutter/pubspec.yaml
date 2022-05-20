@@ -1,6 +1,6 @@
 name: logging_manager_flutter
 description: Provides simple APIs for logging & managing logs. Logging manager with flutter support.
-version: 1.0.0
+version: 2.0.0
 repository: https://github.com/predatorx7/flutter_packages
 # homepage: https://www.example.com
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  logging_manager: ^2.0.0
+  logging_manager: ^2.1.0
 
 dev_dependencies:
   flutter_test:
