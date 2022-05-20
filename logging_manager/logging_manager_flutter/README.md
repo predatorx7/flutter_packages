@@ -6,8 +6,8 @@ Provides simple APIs for logging & managing logs. Logging manager with flutter s
 
 ## Features
 
-- Provides extension `FlutterLoggingManagerX` on the `LoggingManager` for flutter projects.
-- This extension has `onFlutterError` method which can be capture flutter error.
+- Provides class `FlutterLoggingManager` which extends on the `LoggingManager` for flutter projects.
+- This class has `onFlutterError` method which can be capture flutter error.
 - `listenErrorsWithCurrentIsolate` can be used to listen errors in the current isolate.
 - `runFlutterInZoneGuardedWithLogging` can be used to log errors caught in the zone for flutter.
 

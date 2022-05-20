@@ -1,3 +1,7 @@
+## 2.0.1
+
+* Change `FlutterLoggingManagerX` to class of name `FlutterLoggingManager`.
+ 
 ## 2.0.0
 
 * Change `FlutterLoggingManager` to an extension of name `FlutterLoggingManagerX`.

@@ -7,7 +7,12 @@ import 'package:logging_manager/logging_manager.dart';
 
 export 'package:logging_manager/logging_manager.dart';
 
-extension FlutterLoggingManagerX on LoggingManager {
+class FlutterLoggingManager extends LoggingManager {
+  FlutterLoggingManager({
+    Logger? logger,
+    LoggingTree? tree,
+  }) : super(logger: logger, tree: tree);
+
   /// Creates a log from [FlutterErrorDetails].
   void onFlutterError(FlutterErrorDetails details) {
     final message = details.exceptionAsString();
