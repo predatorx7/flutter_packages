@@ -67,7 +67,8 @@ class LaunchScreen extends StatefulWidget {
 
   /// The navigator will navigate to this path if [routePath] is null
   final String reRoutePath;
-  final DependencyObjectProviderCallback<DependencyObject> dependencyObjectProvider;
+  final DependencyObjectProviderCallback<DependencyObject>
+      dependencyObjectProvider;
 
   /// A widget that is shown while [LaunchScreen] is loading. This represents splash screen's UI. This could be animating [AnimatingSplash].
   /// A constant widget instance might lead to better splash performance.
@@ -81,7 +82,6 @@ class LaunchScreen extends StatefulWidget {
   )? onError;
 
   final Future<void> Function(
-    BuildContext context,
     String routeName,
   ) onNavigate;
 
@@ -91,23 +91,13 @@ class LaunchScreen extends StatefulWidget {
     required this.reRoutePath,
     required this.dependencyObjectProvider,
     required this.child,
-    this.onNavigate = _onNavigateDefault,
+    required this.onNavigate,
     this.onError,
     this.animatingNotifier,
   }) : super(key: key);
 
-  static Future<void> _onNavigateDefault(
-    BuildContext context,
-    String routeName,
-  ) {
-    return Navigator.pushReplacementNamed(
-      context,
-      routeName,
-    );
-  }
-
   @override
-  _LaunchScreenState createState() => _LaunchScreenState();
+  State<LaunchScreen> createState() => _LaunchScreenState();
 }
 
 class _LaunchScreenState extends State<LaunchScreen> {
@@ -120,19 +110,19 @@ class _LaunchScreenState extends State<LaunchScreen> {
   static final Completer<void> _completer = Completer<void>();
 
   Future<void> onInitialized() async {
-    bool _canNavigate = true;
+    bool shouldNavigate = true;
+
     await Future.wait(
       [
         onDependencyResolve(),
         onSplashScreenAnimating().then((value) {
-          _canNavigate = value;
+          shouldNavigate = value;
         }),
       ],
     );
 
-    if (_canNavigate) {
+    if (shouldNavigate) {
       widget.onNavigate(
-        context,
         widget.routePath ?? widget.reRoutePath,
       );
     }

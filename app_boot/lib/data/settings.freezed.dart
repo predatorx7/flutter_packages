@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'settings.dart';
@@ -11,21 +12,7 @@ part of 'settings.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$SettingsIdentifierTearOff {
-  const _$SettingsIdentifierTearOff();
-
-  _SettingsIdentifier call(String id) {
-    return _SettingsIdentifier(
-      id,
-    );
-  }
-}
-
-/// @nodoc
-const $SettingsIdentifier = _$SettingsIdentifierTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$SettingsIdentifier {
@@ -67,31 +54,31 @@ class _$SettingsIdentifierCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$SettingsIdentifierCopyWith<$Res>
+abstract class _$$_SettingsIdentifierCopyWith<$Res>
     implements $SettingsIdentifierCopyWith<$Res> {
-  factory _$SettingsIdentifierCopyWith(
-          _SettingsIdentifier value, $Res Function(_SettingsIdentifier) then) =
-      __$SettingsIdentifierCopyWithImpl<$Res>;
+  factory _$$_SettingsIdentifierCopyWith(_$_SettingsIdentifier value,
+          $Res Function(_$_SettingsIdentifier) then) =
+      __$$_SettingsIdentifierCopyWithImpl<$Res>;
   @override
   $Res call({String id});
 }
 
 /// @nodoc
-class __$SettingsIdentifierCopyWithImpl<$Res>
+class __$$_SettingsIdentifierCopyWithImpl<$Res>
     extends _$SettingsIdentifierCopyWithImpl<$Res>
-    implements _$SettingsIdentifierCopyWith<$Res> {
-  __$SettingsIdentifierCopyWithImpl(
-      _SettingsIdentifier _value, $Res Function(_SettingsIdentifier) _then)
-      : super(_value, (v) => _then(v as _SettingsIdentifier));
+    implements _$$_SettingsIdentifierCopyWith<$Res> {
+  __$$_SettingsIdentifierCopyWithImpl(
+      _$_SettingsIdentifier _value, $Res Function(_$_SettingsIdentifier) _then)
+      : super(_value, (v) => _then(v as _$_SettingsIdentifier));
 
   @override
-  _SettingsIdentifier get _value => super._value as _SettingsIdentifier;
+  _$_SettingsIdentifier get _value => super._value as _$_SettingsIdentifier;
 
   @override
   $Res call({
     Object? id = freezed,
   }) {
-    return _then(_SettingsIdentifier(
+    return _then(_$_SettingsIdentifier(
       id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -117,54 +104,31 @@ class _$_SettingsIdentifier implements _SettingsIdentifier {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SettingsIdentifier &&
-            (identical(other.id, id) || other.id == id));
+            other is _$_SettingsIdentifier &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
-  _$SettingsIdentifierCopyWith<_SettingsIdentifier> get copyWith =>
-      __$SettingsIdentifierCopyWithImpl<_SettingsIdentifier>(this, _$identity);
+  _$$_SettingsIdentifierCopyWith<_$_SettingsIdentifier> get copyWith =>
+      __$$_SettingsIdentifierCopyWithImpl<_$_SettingsIdentifier>(
+          this, _$identity);
 }
 
 abstract class _SettingsIdentifier implements SettingsIdentifier {
-  const factory _SettingsIdentifier(String id) = _$_SettingsIdentifier;
+  const factory _SettingsIdentifier(final String id) = _$_SettingsIdentifier;
 
   @override
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SettingsIdentifierCopyWith<_SettingsIdentifier> get copyWith =>
+  _$$_SettingsIdentifierCopyWith<_$_SettingsIdentifier> get copyWith =>
       throw _privateConstructorUsedError;
 }
-
-/// @nodoc
-class _$AppSettingsTearOff {
-  const _$AppSettingsTearOff();
-
-  _AppSettings<EXTRA, D> call<EXTRA extends Object, D extends DependencyObject>(
-      {required String? flavorName,
-      required String appName,
-      required SatisfyDependenciesCallback<D>? dependencies,
-      required ThemeData? theme,
-      required SettingsIdentifier identifier,
-      EXTRA? payload}) {
-    return _AppSettings<EXTRA, D>(
-      flavorName: flavorName,
-      appName: appName,
-      dependencies: dependencies,
-      theme: theme,
-      identifier: identifier,
-      payload: payload,
-    );
-  }
-}
-
-/// @nodoc
-const $AppSettings = _$AppSettingsTearOff();
 
 /// @nodoc
 mixin _$AppSettings<EXTRA extends Object, D extends DependencyObject> {
@@ -175,7 +139,6 @@ mixin _$AppSettings<EXTRA extends Object, D extends DependencyObject> {
   /// For example, if you need to fetch intial data from a remote server.
   SatisfyDependenciesCallback<D>? get dependencies =>
       throw _privateConstructorUsedError;
-  ThemeData? get theme => throw _privateConstructorUsedError;
 
   /// Identifier for the setting.
   SettingsIdentifier get identifier => throw _privateConstructorUsedError;
@@ -196,7 +159,6 @@ abstract class $AppSettingsCopyWith<EXTRA extends Object,
       {String? flavorName,
       String appName,
       SatisfyDependenciesCallback<D>? dependencies,
-      ThemeData? theme,
       SettingsIdentifier identifier,
       EXTRA? payload});
 
@@ -219,7 +181,6 @@ class _$AppSettingsCopyWithImpl<
     Object? flavorName = freezed,
     Object? appName = freezed,
     Object? dependencies = freezed,
-    Object? theme = freezed,
     Object? identifier = freezed,
     Object? payload = freezed,
   }) {
@@ -236,10 +197,6 @@ class _$AppSettingsCopyWithImpl<
           ? _value.dependencies
           : dependencies // ignore: cast_nullable_to_non_nullable
               as SatisfyDependenciesCallback<D>?,
-      theme: theme == freezed
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as ThemeData?,
       identifier: identifier == freezed
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
@@ -260,19 +217,18 @@ class _$AppSettingsCopyWithImpl<
 }
 
 /// @nodoc
-abstract class _$AppSettingsCopyWith<
+abstract class _$$_AppSettingsCopyWith<
     EXTRA extends Object,
     D extends DependencyObject,
     $Res> implements $AppSettingsCopyWith<EXTRA, D, $Res> {
-  factory _$AppSettingsCopyWith(_AppSettings<EXTRA, D> value,
-          $Res Function(_AppSettings<EXTRA, D>) then) =
-      __$AppSettingsCopyWithImpl<EXTRA, D, $Res>;
+  factory _$$_AppSettingsCopyWith(_$_AppSettings<EXTRA, D> value,
+          $Res Function(_$_AppSettings<EXTRA, D>) then) =
+      __$$_AppSettingsCopyWithImpl<EXTRA, D, $Res>;
   @override
   $Res call(
       {String? flavorName,
       String appName,
       SatisfyDependenciesCallback<D>? dependencies,
-      ThemeData? theme,
       SettingsIdentifier identifier,
       EXTRA? payload});
 
@@ -281,28 +237,28 @@ abstract class _$AppSettingsCopyWith<
 }
 
 /// @nodoc
-class __$AppSettingsCopyWithImpl<
+class __$$_AppSettingsCopyWithImpl<
         EXTRA extends Object,
         D extends DependencyObject,
         $Res> extends _$AppSettingsCopyWithImpl<EXTRA, D, $Res>
-    implements _$AppSettingsCopyWith<EXTRA, D, $Res> {
-  __$AppSettingsCopyWithImpl(_AppSettings<EXTRA, D> _value,
-      $Res Function(_AppSettings<EXTRA, D>) _then)
-      : super(_value, (v) => _then(v as _AppSettings<EXTRA, D>));
+    implements _$$_AppSettingsCopyWith<EXTRA, D, $Res> {
+  __$$_AppSettingsCopyWithImpl(_$_AppSettings<EXTRA, D> _value,
+      $Res Function(_$_AppSettings<EXTRA, D>) _then)
+      : super(_value, (v) => _then(v as _$_AppSettings<EXTRA, D>));
 
   @override
-  _AppSettings<EXTRA, D> get _value => super._value as _AppSettings<EXTRA, D>;
+  _$_AppSettings<EXTRA, D> get _value =>
+      super._value as _$_AppSettings<EXTRA, D>;
 
   @override
   $Res call({
     Object? flavorName = freezed,
     Object? appName = freezed,
     Object? dependencies = freezed,
-    Object? theme = freezed,
     Object? identifier = freezed,
     Object? payload = freezed,
   }) {
-    return _then(_AppSettings<EXTRA, D>(
+    return _then(_$_AppSettings<EXTRA, D>(
       flavorName: flavorName == freezed
           ? _value.flavorName
           : flavorName // ignore: cast_nullable_to_non_nullable
@@ -315,10 +271,6 @@ class __$AppSettingsCopyWithImpl<
           ? _value.dependencies
           : dependencies // ignore: cast_nullable_to_non_nullable
               as SatisfyDependenciesCallback<D>?,
-      theme: theme == freezed
-          ? _value.theme
-          : theme // ignore: cast_nullable_to_non_nullable
-              as ThemeData?,
       identifier: identifier == freezed
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
@@ -339,7 +291,6 @@ class _$_AppSettings<EXTRA extends Object, D extends DependencyObject>
       {required this.flavorName,
       required this.appName,
       required this.dependencies,
-      required this.theme,
       required this.identifier,
       this.payload});
 
@@ -347,87 +298,81 @@ class _$_AppSettings<EXTRA extends Object, D extends DependencyObject>
   final String? flavorName;
   @override
   final String appName;
-  @override
 
   /// Dependencies required for [MaterialApp] or initialization.
   /// For example, if you need to fetch intial data from a remote server.
+  @override
   final SatisfyDependenciesCallback<D>? dependencies;
-  @override
-  final ThemeData? theme;
-  @override
 
   /// Identifier for the setting.
+  @override
   final SettingsIdentifier identifier;
   @override
   final EXTRA? payload;
 
   @override
   String toString() {
-    return 'AppSettings<$EXTRA, $D>(flavorName: $flavorName, appName: $appName, dependencies: $dependencies, theme: $theme, identifier: $identifier, payload: $payload)';
+    return 'AppSettings<$EXTRA, $D>(flavorName: $flavorName, appName: $appName, dependencies: $dependencies, identifier: $identifier, payload: $payload)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AppSettings<EXTRA, D> &&
-            (identical(other.flavorName, flavorName) ||
-                other.flavorName == flavorName) &&
-            (identical(other.appName, appName) || other.appName == appName) &&
+            other is _$_AppSettings<EXTRA, D> &&
+            const DeepCollectionEquality()
+                .equals(other.flavorName, flavorName) &&
+            const DeepCollectionEquality().equals(other.appName, appName) &&
             (identical(other.dependencies, dependencies) ||
                 other.dependencies == dependencies) &&
-            (identical(other.theme, theme) || other.theme == theme) &&
-            (identical(other.identifier, identifier) ||
-                other.identifier == identifier) &&
+            const DeepCollectionEquality()
+                .equals(other.identifier, identifier) &&
             const DeepCollectionEquality().equals(other.payload, payload));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      flavorName,
-      appName,
+      const DeepCollectionEquality().hash(flavorName),
+      const DeepCollectionEquality().hash(appName),
       dependencies,
-      theme,
-      identifier,
+      const DeepCollectionEquality().hash(identifier),
       const DeepCollectionEquality().hash(payload));
 
   @JsonKey(ignore: true)
   @override
-  _$AppSettingsCopyWith<EXTRA, D, _AppSettings<EXTRA, D>> get copyWith =>
-      __$AppSettingsCopyWithImpl<EXTRA, D, _AppSettings<EXTRA, D>>(
+  _$$_AppSettingsCopyWith<EXTRA, D, _$_AppSettings<EXTRA, D>> get copyWith =>
+      __$$_AppSettingsCopyWithImpl<EXTRA, D, _$_AppSettings<EXTRA, D>>(
           this, _$identity);
 }
 
 abstract class _AppSettings<EXTRA extends Object, D extends DependencyObject>
     implements AppSettings<EXTRA, D> {
   const factory _AppSettings(
-      {required String? flavorName,
-      required String appName,
-      required SatisfyDependenciesCallback<D>? dependencies,
-      required ThemeData? theme,
-      required SettingsIdentifier identifier,
-      EXTRA? payload}) = _$_AppSettings<EXTRA, D>;
+      {required final String? flavorName,
+      required final String appName,
+      required final SatisfyDependenciesCallback<D>? dependencies,
+      required final SettingsIdentifier identifier,
+      final EXTRA? payload}) = _$_AppSettings<EXTRA, D>;
 
   @override
-  String? get flavorName;
+  String? get flavorName => throw _privateConstructorUsedError;
   @override
-  String get appName;
+  String get appName => throw _privateConstructorUsedError;
   @override
 
   /// Dependencies required for [MaterialApp] or initialization.
   /// For example, if you need to fetch intial data from a remote server.
-  SatisfyDependenciesCallback<D>? get dependencies;
-  @override
-  ThemeData? get theme;
+  SatisfyDependenciesCallback<D>? get dependencies =>
+      throw _privateConstructorUsedError;
   @override
 
   /// Identifier for the setting.
-  SettingsIdentifier get identifier;
+  SettingsIdentifier get identifier => throw _privateConstructorUsedError;
   @override
-  EXTRA? get payload;
+  EXTRA? get payload => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AppSettingsCopyWith<EXTRA, D, _AppSettings<EXTRA, D>> get copyWith =>
+  _$$_AppSettingsCopyWith<EXTRA, D, _$_AppSettings<EXTRA, D>> get copyWith =>
       throw _privateConstructorUsedError;
 }

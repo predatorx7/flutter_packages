@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Remove theme details from AppSettings.
+
 ## 0.2.2
 
 * Remove generic Type T from LaunchScreen

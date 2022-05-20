@@ -34,7 +34,6 @@ class AppSettings<EXTRA extends Object, D extends DependencyObject>
     /// Dependencies required for [MaterialApp] or initialization.
     /// For example, if you need to fetch intial data from a remote server.
     required SatisfyDependenciesCallback<D>? dependencies,
-    required ThemeData? theme,
 
     /// Identifier for the setting.
     required SettingsIdentifier identifier,
