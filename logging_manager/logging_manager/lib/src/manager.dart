@@ -131,15 +131,10 @@ class LoggingManager {
   /// on Flutter to catch errors would not be enough is when an exception
   /// happens inside the onPressed handler of a button.
   Future<void>? runZoneGuardedWithLogging(
-    FutureCallback? beforeRun,
     FutureCallback onRun,
   ) {
     return runZonedGuarded<Future<void>>(
-      () async {
-        if (beforeRun != null) await beforeRun();
-
-        return onRun();
-      },
+      onRun,
       (error, stack) => onRecordError(
         error,
         stack,

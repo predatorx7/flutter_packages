@@ -1,3 +1,7 @@
+## 2.2.0
+
+* Remove `onRun` from `LoggingManager.runZoneGuardedWithLogging`.
+
 ## 2.1.0
 
 - Add `runZoneGuardedWithLogging`, and `listenErrorsInIsolate`.
