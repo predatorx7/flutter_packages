@@ -2,6 +2,7 @@ import 'stringx.dart';
 
 /// Can be used as form field input validators.
 /// Multiple validator functions can be used together.
+@Deprecated('Migrate to a validation package from pub.dev')
 class StringValidate {
   StringValidate._();
 
