@@ -48,20 +48,24 @@ final logginManager = LoggingManager(
 );
 ```
 
-3. Get `package:logging`'s logger from above manager.
+3. Get `package:logging`'s logger. The `Logging` package's logger factory constructor
+returns a singleton instance from a matching `name`. The logger used in the above package also had
+`''` as its name.
 
 ```dart
-final logger = logginManager.root;
+final logger = Logger('');
 ```
 
-4. Use to log anything.
+4. Use it to log anything.
 
 ```dart
 logger.info('Hello World');
 ```
 
-You can get the default logging manager from loggingManager. It uses Logger with name 'DefaultLogger'.
-
 ## Additional information
 
-For more information about using the logger, check [pub.dev:logging](https://pub.dev/packages/logging).
+
+- To catch errors from the `Zone`, you can use `runZoneGuardedWithLogging`. 
+- To catch errors that happen outside of the main Isolate's context, install an error listener on the current Isolate with `listenErrorsInIsolate(Isolate.current);`
+- Please check the example for more usage information.
+- For more information about using the logger, check [pub.dev:logging](https://pub.dev/packages/logging).

@@ -1,9 +1,10 @@
 import 'package:logging_manager/logging_manager.dart';
-import 'package:logging_manager/src/default_logging_manager.dart';
 
 void main() {
-  // or just Logger('CustomLoggingManager');
-  final logger = loggingManager.logger;
+  final loggingManager = LoggingManager(logger: Logger('MyApp'));
+
+  // or just Logger(''); for getting the root logger.
+  final logger = Logger('MyApp');
 
   testPrinting(logger, 'PrintingColoredLogsTree');
   loggingManager.removeTree();
@@ -18,6 +19,17 @@ void main() {
   testPrinting(childLogger, 'NotPrintingLogs');
   loggingManager.plantTree(PrintingLogsTree());
   testPrinting(childLogger, 'PrintingLogsTree');
+
+  /// This won't print anything because the logging manager is managing logs from
+  /// MyApp and its children. The logger below is root logger and its not a children
+  /// of the logger the above logging manager manages.
+  final rootLogger = Logger('');
+
+  testPrinting(rootLogger, 'PrintingColoredLogsTree');
+  loggingManager.removeTree();
+  testPrinting(rootLogger, 'NotPrintingLogs');
+  loggingManager.plantTree(PrintingLogsTree());
+  testPrinting(rootLogger, 'PrintingLogsTree');
 }
 
 void testPrinting(Logger logger, String treeType) {

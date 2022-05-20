@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:isolate' as isolate;
 
 import 'package:logging/logging.dart';
 
 import 'tree.dart';
+
+typedef FutureCallback = Future<void> Function();
 
 /// A manager that manages the [Logger] instances (provided as [logger]).
 ///
@@ -91,6 +94,58 @@ class LoggingManager {
 
   void addLogRecord(LogRecord record) {
     _loggingTree?.onRecord(record);
+  }
+
+  /// Sends a log to the current logger managed by this manager.
+  Future<void> onRecordError(
+    Object? error,
+    StackTrace? stackTrace, {
+    String? reason,
+    bool fatal = false,
+  }) {
+    if (fatal) {
+      logger.severe(reason, error, stackTrace);
+    } else {
+      logger.warning(reason);
+    }
+
+    /// To support being await-ed when overriding classes does something asynchronously.
+    return Future.value(null);
+  }
+
+  void listenErrorsInIsolate(isolate.Isolate context) {
+    context.addErrorListener(
+      isolate.RawReceivePort((pair) async {
+        final List<dynamic> errorAndStacktrace = pair;
+        await onRecordError(
+          errorAndStacktrace.first,
+          errorAndStacktrace.last,
+          fatal: true,
+        );
+      }).sendPort,
+    );
+  }
+
+  /// This can be used to catch errors in a zone.
+  /// ometimes, errors are instead caught by Zones. A common case where relying
+  /// on Flutter to catch errors would not be enough is when an exception
+  /// happens inside the onPressed handler of a button.
+  Future<void>? runZoneGuardedWithLogging(
+    FutureCallback? beforeRun,
+    FutureCallback onRun,
+  ) {
+    return runZonedGuarded<Future<void>>(
+      () async {
+        if (beforeRun != null) await beforeRun();
+
+        return onRun();
+      },
+      (error, stack) => onRecordError(
+        error,
+        stack,
+        fatal: true,
+      ),
+    );
   }
 
   bool _disposed = false;

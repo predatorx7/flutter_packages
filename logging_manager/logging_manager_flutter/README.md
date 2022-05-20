@@ -6,8 +6,9 @@ Provides simple APIs for logging & managing logs. Logging manager with flutter s
 
 ## Features
 
-- Provides `FlutterLoggingManager` as a replacement for LoggingManager for flutter projects.
+- Provides extension `FlutterLoggingManager` on the `LoggingManager` for flutter projects.
 - `FlutterLoggingManager` has `onFlutterError` method which can be capture flutter error.
+
 ```dart
 FlutterError.onError = loggingManager.onFlutterError;
 ```
@@ -16,7 +17,7 @@ FlutterError.onError = loggingManager.onFlutterError;
 
 Either add dependency in pubspec.yaml file
 ```yaml
-    logging_manager_flutter: ^1.0.0
+    logging_manager_flutter: ^2.0.0
 ```
 
 Or add dependency with
@@ -32,10 +33,12 @@ Or add dependency with
 import 'package:logging_manager_flutter/logging_manager_flutter.dart';
 ```
 
-2. Create a FlutterLoggingManager. Note: A LoggingTree is responsible for doing something with logs. If none provided, nothing will happen.
+2. Create a LoggingManager, a class which is exported from `package:logging_manager_flutter`. 
+Note: A LoggingTree is responsible for doing something with logs. If none provided, nothing will happen. 
 
 ```dart
-final loggingManager = FlutterLoggingManager(
+final loggingManager = LoggingManager(
+   logger: Logger('MyApp'),
    tree: PrintingColoredLogsTree(),
 );
 ```
@@ -46,19 +49,18 @@ final loggingManager = FlutterLoggingManager(
 FlutterError.onError = loggingManager.onFlutterError;
 ```
 
-4. Get `package:logging`'s logger from above manager.
+4. Create `package:logging`'s logger which is managed by the above manager.
 
 ```dart
-final appLogger = loggingManager.logger;
+final componentLogger = Logger('MyApp.componentName');
 ```
 
 5. Use logger to log anything.
 
 ```dart
-appLogger.info('Hello World');
+componentLogger.info('Hello World');
 ```
 
 ## Additional Information
 
 For more usage see [Logging Manager package](https://pub.dev/packages/logging_manager).
-
