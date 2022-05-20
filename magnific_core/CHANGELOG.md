@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Remove less useful utilities that easily have better alternatives on pub.dev
+
 ## 0.2.0
 
 * Add onEnd in BootstrapApp
