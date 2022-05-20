@@ -2,6 +2,7 @@
 
 * Change `FlutterLoggingManagerX` to class of name `FlutterLoggingManager`.
 * Update logging_manager package before older version had API issues.
+* Remove `beforeRun` param from 'runFlutterInZoneGuardedWithLogging'
 
 ## 2.0.0
 
