@@ -1,7 +1,8 @@
-## 2.0.1
+## 2.2.0
 
 * Change `FlutterLoggingManagerX` to class of name `FlutterLoggingManager`.
- 
+* Update logging_manager package before older version had API issues.
+
 ## 2.0.0
 
 * Change `FlutterLoggingManager` to an extension of name `FlutterLoggingManagerX`.

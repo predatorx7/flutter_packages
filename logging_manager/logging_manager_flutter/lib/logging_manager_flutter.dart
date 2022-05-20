@@ -31,10 +31,7 @@ class FlutterLoggingManager extends LoggingManager {
     return listenErrorsInIsolate(Isolate.current);
   }
 
-  Future<void>? runFlutterInZoneGuardedWithLogging(
-    FutureCallback onRun, {
-    FutureCallback? beforeRun,
-  }) {
+  Future<void>? runFlutterInZoneGuardedWithLogging(FutureCallback onRun) {
     return runZoneGuardedWithLogging(
       () async {
         /// We must call WidgetsFlutterBinding.ensureInitialized() inside
@@ -42,9 +39,8 @@ class FlutterLoggingManager extends LoggingManager {
         /// WidgetsFlutterBinding.ensureInitialized() was called from the outside.
         WidgetsFlutterBinding.ensureInitialized();
 
-        if (beforeRun != null) await beforeRun();
+        return onRun();
       },
-      onRun,
     );
   }
 }
