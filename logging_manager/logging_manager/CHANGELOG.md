@@ -1,3 +1,7 @@
+## 2.2.2
+
+* Add log output printers `LogOutput`.
+
 ## 2.2.1
 
 * Improve logging format of `PrintingLogsTree.logger`.

@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import 'manager.dart';
+import 'printers.dart';
 import 'stack_filter.dart';
 
 const bool _kIsWeb = identical(0, 0.0);
@@ -233,7 +234,7 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     if (maxLineSize == -1) {
       printSingleLog(
         wholeMessage,
-        record.level,
+        record,
       );
     } else {
       final pattern = RegExp('.{1,$maxLineSize}');
@@ -243,7 +244,7 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
       for (final match in matches) {
         final group = match.group(0);
         if (group == null) continue;
-        printSingleLog(group, record.level);
+        printSingleLog(group, record);
       }
     }
   }
@@ -251,10 +252,9 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   @protected
   void printSingleLog(
     String messageText,
-    Level level,
+    LogRecord record,
   ) {
-    // ignore: avoid_print
-    print(messageText);
+    defaultPrinter(messageText, record);
   }
 }
 
@@ -309,10 +309,13 @@ class PrintingColoredLogsTree extends PrintingLogsTree {
   @override
   void printSingleLog(
     String messageText,
-    Level level,
+    LogRecord record,
   ) {
-    final pen = levelColors[level]!;
-    // ignore: avoid_print
-    print(pen(messageText));
+    final pen = levelColors[record.level]!;
+    defaultPrinter(pen(messageText), record);
   }
 }
+
+typedef PrinterCallback = void Function(String message, LogRecord record);
+
+PrinterCallback defaultPrinter = printers.standard;
