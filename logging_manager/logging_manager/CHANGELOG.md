@@ -1,3 +1,7 @@
+## 2.2.2+1
+
+* Make k prefixed variables private.
+
 ## 2.2.2
 
 * Add log output printers `LogOutput`.

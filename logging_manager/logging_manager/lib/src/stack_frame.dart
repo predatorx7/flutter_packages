@@ -4,9 +4,9 @@
 
 import 'package:meta/meta.dart';
 
-const bool kReleaseMode = bool.fromEnvironment('dart.vm.product');
-const bool kProfileMode = bool.fromEnvironment('dart.vm.profile');
-const bool kDebugMode = !kReleaseMode && !kProfileMode;
+const bool _kReleaseMode = bool.fromEnvironment('dart.vm.product');
+const bool _kProfileMode = bool.fromEnvironment('dart.vm.profile');
+const bool _kDebugMode = !_kReleaseMode && !_kProfileMode;
 
 /// A object representation of a frame from a stack trace.
 ///
@@ -84,7 +84,7 @@ class StackFrame {
   }
 
   static StackFrame? _parseWebFrame(String line) {
-    if (kDebugMode) {
+    if (_kDebugMode) {
       return _parseWebDebugFrame(line);
     } else {
       return _parseWebNonDebugFrame(line);
