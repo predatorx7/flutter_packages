@@ -81,7 +81,6 @@ class LoggingManager {
   Logger getLogger(String name) {
     final isRoot = logger.fullName.isEmpty;
     if (isRoot) {
-      print('IS ROOT LOGGER');
       return Logger(name);
     }
     return Logger('${logger.fullName}.$name');

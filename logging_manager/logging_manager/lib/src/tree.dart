@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:ansicolor/ansicolor.dart';
 import 'package:logging/logging.dart';
@@ -23,7 +24,31 @@ const bool _kIsWeb = identical(0, 0.0);
 /// - [PrintingColoredLogsTree]
 /// - [PrintingLogsTree]
 /// - [FormattedOutputLogsTree] (abstract class)
-mixin LoggingTree {
+abstract class LoggingTree {
+  factory LoggingTree.printing({
+    int maxLineSize = 800,
+    int stacktraceLoggingThreshold = 900,
+  }) {
+    return PrintingLogsTree(
+      maxLineSize: maxLineSize,
+      stacktraceLoggingThreshold: stacktraceLoggingThreshold,
+    );
+  }
+
+  factory LoggingTree.coloredPrinting({
+    int maxLineSize = 800,
+    int stacktraceLoggingThreshold = 900,
+  }) {
+    return PrintingColoredLogsTree(
+      maxLineSize: maxLineSize,
+      stacktraceLoggingThreshold: stacktraceLoggingThreshold,
+    );
+  }
+
+  factory LoggingTree.noop() {
+    return NoopLoggingTree();
+  }
+
   final int stackIndex = 4;
 
   bool get isPlanted => _logsStreamSubscription != null;
@@ -65,9 +90,16 @@ class FormattedStacktrace {
   const FormattedStacktrace(this.stackTrace, this.formattedStackTrace);
 }
 
+class NoopLoggingTree with LoggingTree {
+  @override
+  void log(LogRecord record) {
+    // Do nothing
+  }
+}
+
 /// An abstract class that provides a formatted output for logs.
 abstract class FormattedOutputLogsTree with LoggingTree {
-  /// Value of [level.value] >= this will allow print of stacktrace
+  /// Value of [Level.value] >= this will allow print of stacktrace
   int get stacktraceLoggingThreshold => 900;
 
   bool willLogStackTrace(Level level) {
@@ -76,25 +108,12 @@ abstract class FormattedOutputLogsTree with LoggingTree {
 
   @override
   void log(LogRecord record) {
-    final message = _formatMessage(record);
+    final message = record.message;
     final object = _formatObject(record.object);
     final errorLabel = record.error?.toString();
     final stacktrace = _formatStackTrace(record.stackTrace, record.level);
 
     logger(message, object, errorLabel, stacktrace, record);
-  }
-
-  static String _formatMessage(
-    LogRecord record,
-  ) {
-    final timestamp = record.time.toIso8601String();
-    final level = record.level.name;
-    final tag = record.loggerName;
-    final message = record.message;
-    if (tag.isEmpty) {
-      return '$timestamp {$level} $message';
-    }
-    return '$timestamp [$tag]\n{$level} $message';
   }
 
   static String _formatObject(Object? object) {
@@ -165,9 +184,29 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     this.stacktraceLoggingThreshold = 900,
   });
 
-  static _getWithNewLineIfNotEmpty(String? value) {
-    if (value == null || value.isEmpty) return '';
-    return '\n$value';
+  String _getLoggerLocalName(String name) {
+    // Split hierarchical names (separated with '.').
+    final dot = name.lastIndexOf('.');
+
+    String thisName;
+    if (dot == -1) {
+      thisName = name;
+    } else {
+      thisName = name.substring(dot + 1);
+    }
+    return thisName;
+  }
+
+  void writeInBuffer(
+    StringBuffer buffer,
+    String leading,
+    String? text,
+  ) {
+    final trimmedText = text?.trim();
+    if (trimmedText == null || trimmedText.isEmpty) return;
+    for (final line in LineSplitter.split(trimmedText)) {
+      buffer.writeln('$leading $line');
+    }
   }
 
   @override
@@ -178,10 +217,18 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     FormattedStacktrace stacktrace,
     LogRecord record,
   ) {
+    final messageBuffer = StringBuffer();
+    final firstLine = '${record.level.name}/${record.loggerName}';
+    messageBuffer.writeln(firstLine);
+    final localLoggerName = _getLoggerLocalName(record.loggerName);
+    final leadingLine = '${record.sequenceNumber}/$localLoggerName';
+    writeInBuffer(messageBuffer, leadingLine, messageText);
+    writeInBuffer(messageBuffer, leadingLine, objectText);
+    writeInBuffer(messageBuffer, leadingLine, errorLabel);
     final stacktracePrint = stacktrace.formattedStackTrace;
-    final x = _getWithNewLineIfNotEmpty;
-    final wholeMessage =
-        '$messageText${x(objectText)}${x(errorLabel)}${x(stacktracePrint)}';
+    writeInBuffer(messageBuffer, leadingLine, stacktracePrint);
+
+    final wholeMessage = messageBuffer.toString();
 
     if (maxLineSize == -1) {
       printSingleLog(
@@ -240,10 +287,10 @@ class AnsiColor {
 class PrintingColoredLogsTree extends PrintingLogsTree {
   PrintingColoredLogsTree({
     int maxLineSize = 800,
-    int stacktracePrintingThreshold = 900,
+    int stacktraceLoggingThreshold = 900,
   }) : super(
           maxLineSize: maxLineSize,
-          stacktraceLoggingThreshold: stacktracePrintingThreshold,
+          stacktraceLoggingThreshold: stacktraceLoggingThreshold,
         );
 
   static final levelColors = {

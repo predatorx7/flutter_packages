@@ -1,3 +1,8 @@
+## 2.2.1
+
+* Improve logging format of `PrintingLogsTree.logger`.
+* Improve logging performance of `PrintingLogsTree.logger`.
+
 ## 2.2.0
 
 * Remove `onRun` from `LoggingManager.runZoneGuardedWithLogging`.
