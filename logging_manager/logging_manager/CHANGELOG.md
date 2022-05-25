@@ -1,3 +1,8 @@
+## 2.3.0
+
+* Update runZoneGuardedWithLogging to accept extra parameters for the runZoneGuarded functions.
+* Add LoggerOutput parameters in the printing log tree.
+
 ## 2.2.2+1
 
 * Make k prefixed variables private.

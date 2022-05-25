@@ -1,6 +1,6 @@
 name: logging_manager
 description: Provides simple APIs for logging & managing logs. Uses the logger from the logging package.
-version: 2.2.2+1
+version: 2.3.0
 repository: https://github.com/predatorx7/flutter_packages
 # homepage: https://www.example.com
 

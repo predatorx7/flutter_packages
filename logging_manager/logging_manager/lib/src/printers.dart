@@ -3,16 +3,42 @@ import 'dart:developer' as devel;
 
 import 'package:logging/logging.dart';
 
-final printers = LogOutput();
+abstract class LoggerOutput {
+  const LoggerOutput();
 
-class LogOutput {
-  const LogOutput();
+  void call(String message, LogRecord record);
 
-  void develMessage(String message, LogRecord record) {
-    devel.log(message);
+  factory LoggerOutput.developerMessage() {
+    return DeveloperLoggerOutput();
   }
 
-  void develLogRecord(String message, LogRecord record) {
+  factory LoggerOutput.developerLogRecord() {
+    return DeveloperLogRecordLoggerOutput();
+  }
+
+  factory LoggerOutput.corePrinter() {
+    return CorePrinterLoggerOutput();
+  }
+
+  factory LoggerOutput.standardOutput() {
+    return StandardOuputLoggerOutput();
+  }
+}
+
+class DeveloperLoggerOutput implements LoggerOutput {
+  const DeveloperLoggerOutput();
+
+  @override
+  void call(String message, LogRecord record) {
+    devel.log(message);
+  }
+}
+
+class DeveloperLogRecordLoggerOutput implements LoggerOutput {
+  const DeveloperLogRecordLoggerOutput();
+
+  @override
+  void call(String message, LogRecord record) {
     devel.log(
       record.message,
       time: record.time,
@@ -24,12 +50,22 @@ class LogOutput {
       stackTrace: record.stackTrace,
     );
   }
+}
 
-  void core(String message, LogRecord record) {
+class CorePrinterLoggerOutput implements LoggerOutput {
+  const CorePrinterLoggerOutput();
+
+  @override
+  void call(String message, LogRecord record) {
     print(message);
   }
+}
 
-  void standard(String message, LogRecord record) {
+class StandardOuputLoggerOutput implements LoggerOutput {
+  const StandardOuputLoggerOutput();
+
+  @override
+  void call(String message, LogRecord record) {
     if (record.level.value >= Level.SEVERE.value) {
       stderr.writeln(message);
     } else {

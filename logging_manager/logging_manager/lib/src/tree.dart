@@ -176,6 +176,8 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   /// - when -1 will disable chunking of the logs
   final int maxLineSize;
 
+  final LoggerOutput loggerOutput;
+
   /// Value of [level.value] >= this will allow print of stacktrace
   @override
   final int stacktraceLoggingThreshold;
@@ -183,6 +185,7 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
   PrintingLogsTree({
     this.maxLineSize = 800,
     this.stacktraceLoggingThreshold = 900,
+    this.loggerOutput = const CorePrinterLoggerOutput(),
   });
 
   String _getLoggerLocalName(String name) {
@@ -254,7 +257,7 @@ class PrintingLogsTree extends FormattedOutputLogsTree {
     String messageText,
     LogRecord record,
   ) {
-    defaultPrinter(messageText, record);
+    loggerOutput(messageText, record);
   }
 }
 
@@ -288,9 +291,11 @@ class PrintingColoredLogsTree extends PrintingLogsTree {
   PrintingColoredLogsTree({
     int maxLineSize = 800,
     int stacktraceLoggingThreshold = 900,
+    LoggerOutput loggerOutput = const CorePrinterLoggerOutput(),
   }) : super(
           maxLineSize: maxLineSize,
           stacktraceLoggingThreshold: stacktraceLoggingThreshold,
+          loggerOutput: loggerOutput,
         );
 
   static final levelColors = {
@@ -312,10 +317,6 @@ class PrintingColoredLogsTree extends PrintingLogsTree {
     LogRecord record,
   ) {
     final pen = levelColors[record.level]!;
-    defaultPrinter(pen(messageText), record);
+    return super.printSingleLog(pen(messageText), record);
   }
 }
-
-typedef PrinterCallback = void Function(String message, LogRecord record);
-
-PrinterCallback defaultPrinter = printers.standard;
