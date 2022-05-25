@@ -1,3 +1,7 @@
+## 2.2.1
+
+* Add extra parameters in runFlutterInZoneGuardedWithLogging for runZoneGuarded.
+
 ## 2.2.0
 
 * Change `FlutterLoggingManagerX` to class of name `FlutterLoggingManager`.

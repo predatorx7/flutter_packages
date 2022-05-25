@@ -1,4 +1,4 @@
-import 'dart:async' show Zone;
+import 'dart:async' show Zone, ZoneSpecification;
 import 'dart:isolate';
 
 import 'package:flutter/widgets.dart'
@@ -31,7 +31,12 @@ class FlutterLoggingManager extends LoggingManager {
     return listenErrorsInIsolate(Isolate.current);
   }
 
-  Future<void>? runFlutterInZoneGuardedWithLogging(FutureCallback onRun) {
+  Future<void>? runFlutterInZoneGuardedWithLogging(
+    FutureCallback onRun, {
+    void Function(Object, StackTrace)? onError,
+    Map<Object?, Object?>? zoneValues,
+    ZoneSpecification? zoneSpecification,
+  }) {
     return runZoneGuardedWithLogging(
       () async {
         /// We must call WidgetsFlutterBinding.ensureInitialized() inside
@@ -41,6 +46,9 @@ class FlutterLoggingManager extends LoggingManager {
 
         return onRun();
       },
+      onError: onError,
+      zoneValues: zoneValues,
+      zoneSpecification: zoneSpecification,
     );
   }
 }
