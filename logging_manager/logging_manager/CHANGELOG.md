@@ -1,3 +1,7 @@
+## 2.3.1
+
+* Add [Logging], a wrapper class over [Logger] for creating child loggers in a namespace.
+
 ## 2.3.0
 
 * Update runZoneGuardedWithLogging to accept extra parameters for the runZoneGuarded functions.
