@@ -1,6 +1,6 @@
 name: navigator
 description: An easy yet powerful navigator for simple flutter apps.
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/predatorx7/flutter_packages/tree/main/navigator
 
 environment:

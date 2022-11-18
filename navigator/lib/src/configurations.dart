@@ -165,7 +165,7 @@ class RouterConfiguration with LinkRouter {
       throw UnimplementedError('A route with path name "/" must exist.');
     }
 
-    final _rootSettings = settings.copyWith(name: '/');
+    final _rootSettings = RouteSettings(name: '/', arguments: settings.arguments,);
 
     return onGenerateRoute(_rootSettings);
   }

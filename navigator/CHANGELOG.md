@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Migrate breaking change in RouteSettings.copyWith`
+
 ## 1.1.0
 
 * Add copyWith method in NavigationnPath
